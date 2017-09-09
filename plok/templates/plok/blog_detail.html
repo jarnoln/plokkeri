@@ -1,0 +1,51 @@
+{% extends "plok/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1> {{ blog.title }} </h1>
+
+<p> {{ blog.description }} </p>
+
+{% if can_edit %}
+<p>
+    <a class="action btn btn-primary" href="{% url 'plok:blog_update' blog.name %}">{% trans 'Edit' %}</a>
+    <a class="action btn btn-primary" href="{% url 'plok:article_create' blog.name %}">{% trans 'New article' %}</a>
+    <a class="action btn btn-danger" href="{% url 'plok:blog_delete' blog.name %}">{% trans 'Delete' %}</a>
+</p>
+{% endif %}
+
+<table id="id_collective_list_table" class="table table-striped table-bordered table-hover">
+{% for article in articles %}
+    {% if forloop.first %}
+    <thead>
+    <tr>
+        <th> {% trans 'Article' %} </th>
+        <th> {% trans 'Created' %} </th>
+        {% if can_edit %}
+        <th> {% trans 'Actions' %} </th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% endif %}
+    <tr>
+        <td> <a href="{{ article.get_absolute_url }}"> {{ article.title }} </a> </td>
+        <td> {{ article.created|date:"Y-m-d H:m" }} </td>
+        {% ifequal article.created_by.username request.user.username %}
+        <td>
+            <a class="action btn btn-xs btn-primary" href="{% url 'plok:article_update' blog.name article.name %}"> {% trans "Edit" %} </a>
+            <a class="action btn btn-xs btn-danger" href="{% url 'plok:article_delete' blog.name article.name %}"> {% trans "Delete" %} </a>
+        </td>
+        {% endifequal %}
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+
+<div>
+    <small> {% trans 'Created by' %} {{ blog.created_by }} {% trans 'on' %} {{ blog.created|date:"Y-m-d H:m" }} </small>
+</div>
+
+{% endblock %}

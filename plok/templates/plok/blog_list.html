@@ -1,0 +1,43 @@
+{% extends "plok/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1> {{ title }} </h1>
+
+<table id="id_collective_list_table" class="table table-striped table-bordered table-hover">
+<caption> {% trans "Blogs" %} </caption>
+{% for blog in blog_list %}
+    {% if forloop.first %}
+  <thead>
+    <tr>
+        <th> {% trans "Blog" %} </th>
+        <th> {% trans "Articles" %} </th>
+        <th> {% trans "Creator" %} </th>
+        <th> {% trans "Actions" %} </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% endif %}
+    <tr>
+        <td> <a href="{{ blog.get_absolute_url }}"> {{ blog.title }} </a> </td>
+        <td> {{ blog.articles.count }} </td>
+        <td> {{ blog.created_by.username }} </td>
+        {% ifequal blog.created_by.username request.user.username %}
+        <td>
+            <a class="action btn btn-xs btn-primary" href="{% url 'plokkeri:blog_update' blog.name %}"> {% trans "Edit" %} </a>
+            <a class="action btn btn-xs btn-danger" href="{% url 'plokkeri:blog_delete' blog.name %}"> {% trans "Delete" %} </a>
+        </td>
+        {% else %}
+        <td> &nbsp; </td>
+        {% endifequal %}
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+
+{% if can_add %}
+    <p> <a class="action btn btn-primary" href="{% url 'plokkeri:blog_create' %}"> Add new blog </a></p>
+{% endif %}
+
+{% endblock %}

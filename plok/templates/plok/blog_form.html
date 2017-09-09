@@ -1,0 +1,26 @@
+{% extends "plok/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% if blog %}
+<h1> {{ blog.title }} </h1>
+<form action="{% url 'plok:blog_update' blog.name %}" method="post">
+{% else %}
+<h1> {% trans "Create new blog" %} </h1>
+<form action="{% url 'plok:blog_create' %}" method="post">
+{% endif %}
+{% csrf_token %}
+
+<table class="table">
+
+{{ form.as_table }}
+
+    {% trans "Save" as save_txt %}
+    <tr> <td colspan="2"> <input type="submit" class="btn btn-primary" value="{{ save_txt }}"> </td> </tr>
+
+</table>
+
+</form>
+
+{% endblock %}
