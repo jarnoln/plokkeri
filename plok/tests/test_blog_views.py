@@ -111,8 +111,7 @@ class CreateBlogPage(ExtTestCase):
 
     def test_cant_create_blog_if_not_logged_in(self):
         response = self.client.get(reverse('plok:blog_create'), follow=True)
-        self.assertTemplateUsed(response, '404.html')
-        # self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertTemplateUsed(response, 'account/login.html')
 
     def test_cant_create_blog_with_existing_name(self):
         user = self.create_and_log_in_user()
@@ -172,7 +171,7 @@ class UpdateBlogPage(ExtTestCase):
         blog = Blog.objects.all()[0]
         self.assertEqual(blog.title, 'Test blog')
         self.assertEqual(blog.description, 'Testing')
-        self.assertTemplateUsed(response, '404.html')
+        self.assertTemplateUsed(response, 'account/login.html')
         # self.assertTemplateUsed(response, 'registration/login.html')
 
     def test_cant_update_blog_if_not_creator(self):
@@ -213,7 +212,7 @@ class DeleteBlogPage(ExtTestCase):
         Blog.objects.create(created_by=creator, name="test_blog", title="Test blog", description="Testing")
         response = self.client.post(reverse('plok:blog_delete', args=['test_blog']), {}, follow=True)
         # self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertTemplateUsed(response, '404.html')
+        self.assertTemplateUsed(response, 'account/login.html')
 
     def test_cant_delete_blog_if_not_creator(self):
         creator = auth.get_user_model().objects.create(username='creator')

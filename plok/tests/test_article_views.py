@@ -111,7 +111,7 @@ class CreateArticlePage(ExtTestCase):
         blog = Blog.objects.create(created_by=creator, name="test_blog", title="Test blog", description="Testing")
         response = self.client.get(reverse('plok:article_create', args=[blog.name]), follow=True)
         # self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertTemplateUsed(response, '404.html')
+        self.assertTemplateUsed(response, 'account/login.html')
 
     def test_cant_create_article_with_existing_name(self):
         user = self.create_and_log_in_user()
@@ -182,7 +182,7 @@ class UpdateArticlePage(ExtTestCase):
         article = Article.objects.create(created_by=creator, blog=blog, name="test_article", title="Test article")
         response = self.client.get(reverse('plok:article_update', args=[blog.name, article.name]), follow=True)
         # self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertTemplateUsed(response, '404.html')
+        self.assertTemplateUsed(response, 'account/login.html')
 
     def test_cant_edit_article_if_not_creator(self):
         creator = auth.get_user_model().objects.create(username='creator')
@@ -237,7 +237,7 @@ class DeleteArticlePage(ExtTestCase):
         article = Article.objects.create(created_by=creator, blog=blog, name="test_article", title="Test article")
         response = self.client.post(reverse('plok:article_delete', args=[blog.name, article.name]), {}, follow=True)
         # self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertTemplateUsed(response, '404.html')
+        self.assertTemplateUsed(response, 'account/login.html')
         self.assertEqual(Blog.objects.all().count(), 1)
         self.assertEqual(Article.objects.all().count(), 1)
 
