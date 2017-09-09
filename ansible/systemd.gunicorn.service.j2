@@ -1,0 +1,12 @@
+[Unit]
+Description=Gunicorn server for {{ host }}
+After=network.target
+
+[Service]
+User={{ ansible_ssh_user }}
+Group={{ ansible_ssh_user }}
+WorkingDirectory=/home/{{ ansible_ssh_user }}/sites/{{ host }}/source
+ExecStart=/home/{{ ansible_ssh_user }}/sites/{{ host }}/virtualenv/bin/gunicorn --bind unix:/tmp/{{ host }}.socket {{ app_name }}.wsgi:application --workers 3
+
+[Install]
+WantedBy=multi-user.target

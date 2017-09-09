@@ -1,0 +1,28 @@
+server {
+    listen 80;
+    listen 443 ssl;
+
+    server_name {{ host }} www.{{ host }} staging.{{ host }};
+    # ssl_certificate /etc/letsencrypt/live/{{ host }}/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/{{ host }}/privkey.pem;
+
+    location /favicon.ico {
+        alias /home/{{ ansible_ssh_user }}/sites/jln-static/favicon.ico;
+    }
+
+    location /static {
+        alias /home/{{ ansible_ssh_user }}/sites/{{ host }}/static;
+        autoindex on;
+    }
+
+    # This is used by certbot to verify site ownership
+    location /.well-known {
+        alias /home/{{ ansible_ssh_user }}/sites/{{ host }}/.well-known;
+        autoindex on;
+    }
+
+    location / {
+        proxy_set_header Host {{ host }};
+        proxy_pass http://unix:/tmp/{{ host }}.socket;
+    }
+}
