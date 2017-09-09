@@ -1,0 +1,48 @@
+{% extends "plok/base.html" %}
+
+{% load account %}
+{% load i18n %}
+
+{% block head_title %}Profile{% endblock %}
+{% block content %}
+<h1> {% user_display user %} </h1>
+
+<table class="table">
+  <tr>
+    <th> {% trans 'Username' %} </th>
+    <td> {{ target_user.username }} </td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <th> {% trans 'Email' %} </th>
+    <td> {{ target_user.email }} </td>
+    <td> <a href="{% url 'account_email' %}"> {% trans 'Change' %} </a> </td>
+  </tr>
+  <tr>
+    <th> {% trans 'First name' %} </th>
+    <td colspan="2"> {{ target_user.first_name }} </td>
+  </tr>
+  <tr>
+    <th> {% trans 'Last name' %} </th>
+    <td colspan="2"> {{ target_user.last_name }} </td>
+  </tr>
+</table>
+
+<p>
+  <a href="{% url 'socialaccount_connections' %}"> {% trans 'Connected accounts' %} </a>
+</p>
+
+{% if target_user == user %}
+<p>
+  <a class="btn btn-primary" href="{% url 'user_update' target_user %}">
+    {% trans 'Edit' %}
+  </a>
+</p>
+<p class="text-right">
+  <a class="btn btn-danger" href="{% url 'user_delete' target_user %}">
+    {% trans 'Delete account' %}
+  </a>
+</p>
+{% endif %}
+
+{% endblock content %}

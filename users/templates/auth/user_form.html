@@ -1,0 +1,40 @@
+{% extends "plok/base.html" %}
+{% load i18n %}
+{% block head_title %} {% trans "Edit" %} {{ user.username }} {% endblock %}
+{% block content %}
+<form method="post" action="{% url 'user_update' user.username %}">
+      <input type="hidden" name="next" value="{% url 'user_detail' user.username %}" />
+  {% csrf_token %}
+  <table class="table">
+    <tr>
+        <th class="nowrap"> {{ form.username.label_tag }} </th>
+        <td> {{ form.username }} </td>
+        <td> {{ form.username.help_text }} </td>
+    </tr>
+    <tr>
+        <th class="nowrap"> {{ form.email.label_tag }} </th>
+        <td> {{ form.email }} </td>
+        <td> {{ form.email.help_text }} </td>
+    </tr>
+    <tr>
+        <th class="nowrap"> {{ form.first_name.label_tag }} </th>
+        <td> {{ form.first_name }} </td>
+        <td> {{ form.first_name.help_text }} </td>
+    </tr>
+    <tr>
+        <th class="nowrap"> {{ form.last_name.label_tag }} </th>
+        <td> {{ form.last_name }} </td>
+        <td> {{ form.last_name.help_text }} </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="submit" id="id_button_login" class="btn btn-primary" value="{% trans 'Save' %}" />
+        </td>
+    </tr>
+  </table>
+</form>
+
+{% if form.errors %}
+<p> {{ form.errors }} </p>
+{% endif %}
+{% endblock %}

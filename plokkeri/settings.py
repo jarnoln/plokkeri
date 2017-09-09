@@ -51,11 +51,12 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
+    'plok',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-    'plok',
 ]
 
 MIDDLEWARE = [

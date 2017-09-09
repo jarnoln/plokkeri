@@ -1,0 +1,25 @@
+{% extends "plok/base.html" %}
+{% load i18n %}
+{% block head_title %} {% trans 'Confirm delete user' %} {% endblock %}
+
+{% block content %}
+<h1> {% trans 'Are you sure you want to delete user' %}: {{ user.username }}? </h1>
+
+<table class="table">
+    <tr>
+        <td>
+    <form action="{% url 'user_delete' user.username %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger" id="button_delete">{% trans 'Delete' %}</button>
+    </form>
+    </td>
+        <td>
+    <form action="{% url 'plok:index' %}" method="get">
+    {% csrf_token %}
+        <button class="btn btn-primary" id="button_cancel">{% trans 'Cancel' %}</button>
+    </form>
+        </td>
+    </tr>
+</table>
+
+{% endblock %}
