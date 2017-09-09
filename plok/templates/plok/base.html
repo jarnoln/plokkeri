@@ -18,7 +18,12 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'plok:index' %}"> {% trans 'Home' %} </a>
           </li>
-
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'plok:blog_list' %}"> {% trans 'Blogs' %} </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'plok:article_list' %}"> {% trans 'Articles' %} </a>
+          </li>
   {% if user.is_authenticated %}
     {% if user.is_staff %}
           <li class="nav-item">
