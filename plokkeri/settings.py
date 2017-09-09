@@ -11,22 +11,35 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import sys
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(ql+t1^#tnyiuh@p=s*n08*r=-mpa5=+3vvd^zwv6gi0-8#p$k'
+try:
+    from .passwords import SECRET_KEY
+except ImportError:
+    print('Password file does not exist. How to create it:')
+    print('python plokkeri/generate_passwords.py plokkeri/passwords.py')
+    sys.exit(1)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE_DIR = os.path.dirname(BASE_DIR)
+if DEBUG:
+    LOG_DIR = BASE_DIR
+else:
+    LOG_DIR = os.path.join(SITE_DIR, 'log')
+assert os.path.exists(LOG_DIR), 'Log directory {} does not exist'.format(LOG_DIR)
 
+# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+
+SITE_ID = 1
+ALLOWED_HOSTS = ['localhost', '127.0.0.1',
+                 'plokkeri.fi', 'www.plokkeri.fi', 'staging.plokkeri.fi',
+                 'plokkeri.com', 'www.plokkeri.com', 'staging.plokkeri.com',
+                 'plokkeri.jln.fi']
+ADMINS = [('Jarno', 'jarnoln@gmail.com')]
 
 # Application definition
 
@@ -84,37 +97,85 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+AUTH_PASSWORD_VALIDATORS = []
+
+# Email settings
+SERVER_EMAIL = 'django@plokkeri.fi'  # Used for error and log messages
+DEFAULT_FROM_EMAIL = 'accounts@plokkeri.fi'  # Used for normal emails (mostly account email verifications)
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'Europe/Helsinki'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(SITE_DIR, 'static')
+
+# Security
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = False
+X_FRAME_OPTIONS = 'DENY'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            # 'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'DEBUG',
+            # 'filters': ['require_debug_false'],
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, 'plokkeri.log'),
+            'maxBytes': 1024*1024,
+            'backupCount': 2,
+            'formatter': 'verbose'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': 'WARNING',
+            'propagate': False
+        },
+        'django': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': 'INFO',
+        }
+    }
+}
