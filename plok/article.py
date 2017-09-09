@@ -63,7 +63,7 @@ class ArticleCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super(ArticleCreate, self).get_context_data(**kwargs)
         context['title'] = ugettext('Create new article')
-        context['message'] = self.request.REQUEST.get('message', '')
+        context['message'] = self.request.GET.get('message', '')
         return context
 
 
@@ -80,7 +80,7 @@ class ArticleUpdate(UpdateView):
         if self.object.can_edit(self.request.user):
             return super(ArticleUpdate, self).render_to_response(context, **response_kwargs)
         else:
-            return HttpResponseRedirect(reverse('plokkeri:article', args=[self.blog.name, self.object.name]))
+            return HttpResponseRedirect(reverse('plok:article', args=[self.blog.name, self.object.name]))
 
     def form_valid(self, form):
         logger = logging.getLogger(__name__)
@@ -88,13 +88,13 @@ class ArticleUpdate(UpdateView):
             return super(ArticleUpdate, self).form_valid(form)
         else:
             logger.info("Not allowed to edit. Registered:%s Creator:%s" % (self.request.user.username, self.blog.created_by.username))
-            return HttpResponseRedirect(reverse('plokkeri:article', args=[self.blog.name, self.object.name]))
+            return HttpResponseRedirect(reverse('plok:article', args=[self.blog.name, self.object.name]))
 
 
 class ArticleDelete(DeleteView):
     slug_field = 'name'
     model = Article
-    success_url = reverse_lazy('plokkeri:index')
+    success_url = reverse_lazy('plok:index')
 
     def dispatch(self, request, *args, **kwargs):
         blog_name = kwargs['blog_name']

@@ -1,0 +1,57 @@
+{% extends "plok/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% if article %}
+<h1> {{ article.title }} </h1>
+{% else %}
+<h1> {% trans "Create new article" %} </h1>
+{% endif %}
+
+{% if article %}
+<form action="{{ article.get_edit_url }}" method="post">
+{% else %}
+<form action="" method="post">
+{% endif %}
+
+{% csrf_token %}
+<table class="form table table-condensed">
+    <tr>
+        <th class="header"> {% trans "Name" %} </th>
+        {% if article %}
+        <th> {{ article.name }} </th>
+        {% else %}
+        <td> <input type="text" name="name" value="" placeholder="article_name"/> </td>
+        {% endif %}
+    </tr>
+    <tr>
+        <th class="header"> {% trans "Title" %} </th>
+        <td> <input type="text" name="title" value="{{ article.title }}"/> </td>
+    </tr>
+
+    <tr>
+        <th> {% trans "Description" %} </th>
+        <td> {% trans "Short description. Used in page header meta fields." %}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <textarea name="description" rows="4" cols="120">{{ article.description }}</textarea>
+        </td>
+    </tr>
+
+    <tr>
+        <th> {% trans "Content" %} </th>
+        <td> {% trans "The actual article content. Can use HTML tags or even JavaScript." %}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <textarea name="text" rows="25" cols="120">{{ article.text }}</textarea>
+        </td>
+    </tr>
+    {% trans "Save" as save_txt %}
+    <tr> <td> <input type="submit" class="btn btn-primary" value="{{ save_txt }}"> </td> </tr>
+</table>
+</form>
+
+{% endblock %}

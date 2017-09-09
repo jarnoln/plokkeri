@@ -1,0 +1,28 @@
+{% extends "plok/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1> {{ article.title }} </h1>
+
+{% if description %}
+<p> <b> {{ description }} </b></p>
+{% endif %}
+
+<p> {{ article.text|safe }} </p>
+
+{% if can_edit %}
+<div>
+    <a class="btn btn-primary" href="{% url 'plok:article_update' article.blog.name article.name %}">{% trans 'Edit' %}</a>
+    <a class="btn btn-danger" href="{% url 'plok:article_delete' article.blog.name article.name %}">{% trans 'Delete' %}</a>
+</div>
+{% endif %}
+
+<div>
+    <small>
+    {% trans 'Created by' %} {{ article.created_by.username }}
+    {% trans 'on' %} {{ article.created|date:"Y-m-d H:m" }}
+    </small>
+</div>
+
+{% endblock %}
