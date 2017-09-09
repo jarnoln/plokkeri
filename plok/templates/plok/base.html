@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+{% load i18n %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="/static/png/jln-favicon.png" />
+    <title> {% block head_title %}Plokkeri{% endblock %} </title>
+  </head>
+  <body>
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert"> {{ message.tags }}: {{ message }} </div>
+{% endfor %}
+    <div class="container-fluid">
+{% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
