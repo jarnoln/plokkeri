@@ -1,0 +1,10 @@
+*.pyc
+*.log
+*.retry
+__pycache__
+db.sqlite3
+.idea
+.coverage
+passwords.py
+migrations
+
