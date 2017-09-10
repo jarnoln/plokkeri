@@ -227,7 +227,7 @@ class DeleteArticlePage(ExtTestCase):
         self.assertEqual(Blog.objects.all().count(), 1)
         self.assertEqual(Article.objects.all().count(), 1)
         response = self.client.post(reverse('plok:article_delete', args=[blog.name, article.name]), {}, follow=True)
-        self.assertTemplateUsed(response, 'plok/index.html')
+        self.assertTemplateUsed(response, 'plok/article_list.html')
         self.assertEqual(Blog.objects.all().count(), 1)
         self.assertEqual(Article.objects.all().count(), 0)
 
