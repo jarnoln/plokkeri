@@ -9,7 +9,7 @@ from .ext_test_case import ExtTestCase
 
 class BlogList(TestCase):
     def test_reverse_blog_list(self):
-        self.assertEqual(reverse('plok:blog_list'), '/plok/list/')
+        self.assertEqual(reverse('plok:blog_list'), '/list/')
 
     def test_uses_correct_template(self):
         response = self.client.get(reverse('plok:blog_list'))
@@ -83,7 +83,7 @@ class BlogPage(ExtTestCase):
 
 class CreateBlogPage(ExtTestCase):
     def test_reverse_blog_create(self):
-        self.assertEqual(reverse('plok:blog_create'), '/plok/create/')
+        self.assertEqual(reverse('plok:blog_create'), '/create/')
 
     def test_uses_correct_template(self):
         self.create_and_log_in_user()

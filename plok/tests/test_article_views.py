@@ -9,7 +9,7 @@ from .ext_test_case import ExtTestCase
 
 class ArticleList(TestCase):
     def test_reverse_blog_list(self):
-        self.assertEqual(reverse('plok:article_list'), '/plok/article_list/')
+        self.assertEqual(reverse('plok:article_list'), '/article_list/')
 
     def test_uses_correct_template(self):
         response = self.client.get(reverse('plok:article_list'))
