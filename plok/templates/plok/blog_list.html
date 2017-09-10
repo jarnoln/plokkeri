@@ -25,8 +25,8 @@
         <td> {{ blog.created_by.username }} </td>
         {% ifequal blog.created_by.username request.user.username %}
         <td>
-            <a class="action btn btn-xs btn-primary" href="{% url 'plokkeri:blog_update' blog.name %}"> {% trans "Edit" %} </a>
-            <a class="action btn btn-xs btn-danger" href="{% url 'plokkeri:blog_delete' blog.name %}"> {% trans "Delete" %} </a>
+            <a class="action btn btn-xs btn-primary" href="{% url 'plok:blog_update' blog.name %}"> {% trans "Edit" %} </a>
+            <a class="action btn btn-xs btn-danger" href="{% url 'plok:blog_delete' blog.name %}"> {% trans "Delete" %} </a>
         </td>
         {% else %}
         <td> &nbsp; </td>
@@ -37,7 +37,7 @@
 </table>
 
 {% if can_add %}
-    <p> <a class="action btn btn-primary" href="{% url 'plokkeri:blog_create' %}"> Add new blog </a></p>
+    <p> <a class="action btn btn-primary" href="{% url 'plok:blog_create' %}"> Add new blog </a></p>
 {% endif %}
 
 {% endblock %}
