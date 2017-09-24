@@ -13,6 +13,11 @@ class BlogTests(ExtTestCase):
         blog.save()
         self.assertEqual(Blog.objects.all().count(), 1)
 
+    def test_string(self):
+        creator = auth.get_user_model().objects.create(username='creator')
+        blog = Blog.objects.create(created_by=creator, name="test_blog", title="Test blog")
+        self.assertEqual(str(blog), blog.name)
+
     def test_saving_blog_without_name_or_creator_fails(self):
         blog = Blog()
         with self.assertRaises(IntegrityError):
@@ -44,6 +49,12 @@ class ArticleTests(ExtTestCase):
         article = Article(blog=blog, created_by=creator, slug="test_article")
         article.save()
         self.assertEqual(Article.objects.all().count(), 1)
+
+    def test_string(self):
+        creator = auth.get_user_model().objects.create(username='creator')
+        blog = Blog.objects.create(created_by=creator, name="test_blog", title="Test blog")
+        article = Article.objects.create(blog=blog, created_by=creator, name="test_article")
+        self.assertEqual(str(article), '{}:{}'.format(blog.name, article.name))
 
     def test_saving_article_without_name_or_creator_fails(self):
         article = Article()

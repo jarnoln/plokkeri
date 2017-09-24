@@ -33,6 +33,9 @@ class Blog(models.Model):
     def get_absolute_url(self):
         return reverse('plok:blog', args=[self.name])
 
+    def __str__(self):
+        return self.name
+
 
 class Article(models.Model):
     blog = models.ForeignKey(Blog, null=False)
@@ -63,6 +66,9 @@ class Article(models.Model):
 
     def get_edit_url(self):
         return reverse('plok:article_update', args=[self.blog.name, self.name])
+
+    def __str__(self):
+        return '{}:{}'.format(self.blog.name, self.name)
 
     class Meta:
         ordering = ['-created']  # Default ordering by points (descending)
