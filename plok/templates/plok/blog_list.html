@@ -1,12 +1,12 @@
 {% extends "plok/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block head_title %}{% trans "Blogs" %}{% endblock %}
 
-<h1> {{ title }} </h1>
+{% block content %}
+<h1> {% trans "Blogs" %} </h1>
 
 <table id="id_blog_list_table" class="table table-bordered table-hover">
-<caption> {% trans "Blogs" %} </caption>
 {% for blog in blog_list %}
     {% if forloop.first %}
   <thead>

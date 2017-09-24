@@ -32,6 +32,10 @@ else:
     LOG_DIR = os.path.join(SITE_DIR, 'log')
 assert os.path.exists(LOG_DIR), 'Log directory {} does not exist'.format(LOG_DIR)
 
+LOCALE_PATHS = [
+    '{}/locale'.format(BASE_DIR),
+]
+
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 SITE_ID = 1
@@ -124,6 +128,7 @@ DEFAULT_FROM_EMAIL = 'accounts@plokkeri.fi'  # Used for normal emails (mostly ac
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'fi'
 TIME_ZONE = 'Europe/Helsinki'
 USE_I18N = True
 USE_L10N = True
