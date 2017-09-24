@@ -1,0 +1,15 @@
+{% extends "plok/base.html" %}
+{% load i18n %}
+
+{% block head_title %}{% trans 'About' %}{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-2"> &nbsp; </div>
+  <div class="col-10">
+  {% autoescape off %}
+    <p> {{ about_text }} </p>
+  {% endautoescape %}
+  </div>
+  <div class="col-2"> &nbsp; </div>
+</div>
+{% endblock content %}
