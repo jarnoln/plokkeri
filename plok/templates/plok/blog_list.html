@@ -4,6 +4,11 @@
 {% block head_title %}{% trans "Blogs" %}{% endblock %}
 
 {% block content %}
+
+<div class="row">
+  <div class="col-md-1"> &nbsp;</div>
+  <div class="col-md-10">
+
 <h1> {% trans "Blogs" %} </h1>
 
 <table id="id_blog_list_table" class="table table-bordered table-hover">
@@ -14,7 +19,9 @@
         <th> {% trans "Blog" %} </th>
         <th> {% trans "Articles" %} </th>
         <th> {% trans "Creator" %} </th>
+      {% if user.is_authenticated %}
         <th> {% trans "Actions" %} </th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -39,5 +46,9 @@
 {% if can_add %}
     <p> <a class="action btn btn-primary" href="{% url 'plok:blog_create' %}"> Add new blog </a></p>
 {% endif %}
+
+  </div>
+  <div class="col-md-1"> &nbsp;</div>
+</div>
 
 {% endblock %}

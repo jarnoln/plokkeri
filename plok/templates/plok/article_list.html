@@ -1,9 +1,15 @@
 {% extends "plok/base.html" %}
 {% load i18n %}
 
+{% block head_title %}{% trans "Articles" %}{% endblock %}
+
 {% block content %}
 
-<h1> {{ title }} </h1>
+<div class="row">
+  <div class="col-md-1"> &nbsp;</div>
+  <div class="col-md-10">
+
+<h1> {% trans 'Articles' %} </h1>
 
 <table id="id_article_list_table" class="table table-bordered table-hover">
   <thead>
@@ -21,7 +27,7 @@
     <tr>
         <td> <a href="{{ article.bolg.get_absolute_url }}"> {{ article.blog.title }} </a> </td>
         <td> <a href="{{ article.get_absolute_url }}"> {{ article.title }} </a> </td>
-        <td> {{ article.created|date:"Y-m-d H:i" }} </td>
+        <td> {{ article.created|date:"Y-m-d" }} </td>
         {% ifequal article.created_by.username request.user.username %}
         <td>
             <a class="action btn btn-xs btn-primary" href="{% url 'plok:article_update' article.blog.name article.name %}"> {% trans "Edit" %} </a>
@@ -36,5 +42,9 @@
 {% if can_add %}
     <p> <a class="action btn btn-primary" href="{% url 'plok:blog_create' %}"> {% trans 'Add new blog' %} </a> </p>
 {% endif %}
+
+  </div>
+  <div class="col-md-1"> &nbsp;</div>
+</div>
 
 {% endblock %}
