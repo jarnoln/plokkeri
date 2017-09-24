@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-24 17:02+0300\n"
+"POT-Creation-Date: 2017-09-24 19:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: plok/article.py:65 plok/templates/plok/article_form.html:9
-msgid "Create new article"
-msgstr "Luo uusi artikkeli"
 
 #: plok/blog.py:46 plok/templates/plok/blog_form.html:10
 msgid "Create new blog"
@@ -68,11 +64,11 @@ msgstr "Oletko varma että haluat tuhota artikkelin"
 
 #: plok/templates/plok/article_confirm_delete.html:14
 #: plok/templates/plok/article_detail.html:21
-#: plok/templates/plok/article_list.html:28
+#: plok/templates/plok/article_list.html:34
 #: plok/templates/plok/blog_confirm_delete.html:14
 #: plok/templates/plok/blog_detail.html:14
 #: plok/templates/plok/blog_detail.html:38
-#: plok/templates/plok/blog_list.html:29
+#: plok/templates/plok/blog_list.html:36
 #: users/templates/auth/user_confirm_delete.html:13
 msgid "Delete"
 msgstr "Poista"
@@ -84,10 +80,10 @@ msgid "Cancel"
 msgstr "Peru"
 
 #: plok/templates/plok/article_detail.html:20
-#: plok/templates/plok/article_list.html:27
+#: plok/templates/plok/article_list.html:33
 #: plok/templates/plok/blog_detail.html:12
 #: plok/templates/plok/blog_detail.html:37
-#: plok/templates/plok/blog_list.html:28 users/templates/auth/profile.html:38
+#: plok/templates/plok/blog_list.html:35 users/templates/auth/profile.html:38
 #: users/templates/auth/user_form.html:3
 msgid "Edit"
 msgstr "Edit"
@@ -102,59 +98,69 @@ msgstr "Tehnyt"
 msgid "on"
 msgstr ""
 
-#: plok/templates/plok/article_form.html:21
+#: plok/templates/plok/article_form.html:8
+#: plok/templates/plok/article_form.html:16
+msgid "Create new article"
+msgstr "Luo uusi artikkeli"
+
+#: plok/templates/plok/article_form.html:28
 #: users/templates/auth/user_list.html:11
 msgid "Name"
 msgstr "Nimi"
 
-#: plok/templates/plok/article_form.html:29
+#: plok/templates/plok/article_form.html:36
 msgid "Title"
 msgstr "Otsikko"
 
-#: plok/templates/plok/article_form.html:34
+#: plok/templates/plok/article_form.html:41
 msgid "Description"
 msgstr "Kuvaus"
 
-#: plok/templates/plok/article_form.html:35
+#: plok/templates/plok/article_form.html:42
 msgid "Short description. Used in page header meta fields."
 msgstr "Lyhyt kuvaus."
 
-#: plok/templates/plok/article_form.html:44
+#: plok/templates/plok/article_form.html:51
 msgid "Content"
 msgstr "Sisältö"
 
-#: plok/templates/plok/article_form.html:45
-msgid "The actual article content. Can use HTML tags or even JavaScript."
-msgstr ""
-"Varsinainen artikkelin sisältö. Voi käyttää HTML-tageja tai JavaScriptiä."
-
 #: plok/templates/plok/article_form.html:52
+msgid "The actual article content. Can use HTML tags or even JavaScript."
+msgstr "Varsinainen jutun sisältö. Voi käyttää HTML-tageja tai JavaScriptiä."
+
+#: plok/templates/plok/article_form.html:59
 #: plok/templates/plok/blog_form.html:19 users/templates/auth/user_form.html:31
 msgid "Save"
 msgstr "Tallenna"
 
-#: plok/templates/plok/article_list.html:11
-#: plok/templates/plok/blog_list.html:14
+#: plok/templates/plok/article_list.html:4
+#: plok/templates/plok/article_list.html:12 plok/templates/plok/base.html:25
+#: plok/templates/plok/blog_list.html:20
+msgid "Articles"
+msgstr "Jutut"
+
+#: plok/templates/plok/article_list.html:17
+#: plok/templates/plok/blog_list.html:19
 msgid "Blog"
 msgstr "Ploki"
 
-#: plok/templates/plok/article_list.html:12
+#: plok/templates/plok/article_list.html:18
 #: plok/templates/plok/blog_detail.html:23
 msgid "Article"
-msgstr "Artikkeli"
+msgstr "Juttu"
 
-#: plok/templates/plok/article_list.html:13
+#: plok/templates/plok/article_list.html:19
 #: plok/templates/plok/blog_detail.html:24
 msgid "Created"
 msgstr "Luotu"
 
-#: plok/templates/plok/article_list.html:15
+#: plok/templates/plok/article_list.html:21
 #: plok/templates/plok/blog_detail.html:26
-#: plok/templates/plok/blog_list.html:17
+#: plok/templates/plok/blog_list.html:23
 msgid "Actions"
 msgstr "Toiminnot"
 
-#: plok/templates/plok/article_list.html:37
+#: plok/templates/plok/article_list.html:43
 msgid "Add new blog"
 msgstr "Lisää uusi ploki"
 
@@ -162,13 +168,10 @@ msgstr "Lisää uusi ploki"
 msgid "Home"
 msgstr "Etusivu"
 
-#: plok/templates/plok/base.html:22 plok/templates/plok/blog_list.html:9
+#: plok/templates/plok/base.html:22 plok/templates/plok/blog_list.html:4
+#: plok/templates/plok/blog_list.html:12
 msgid "Blogs"
 msgstr "Plokit"
-
-#: plok/templates/plok/base.html:25 plok/templates/plok/blog_list.html:15
-msgid "Articles"
-msgstr "Artikkelit"
 
 #: plok/templates/plok/base.html:33
 msgid "Admin"
@@ -185,7 +188,7 @@ msgstr "Logout"
 
 #: plok/templates/plok/base.html:51 plok/templates/plok/base.html:57
 msgid "Login"
-msgstr "Login"
+msgstr "Kirjaudu"
 
 #: plok/templates/plok/base.html:54 plok/templates/plok/base.html:60
 #: users/templates/account/signup.html:5 users/templates/account/signup.html:8
@@ -199,9 +202,9 @@ msgstr "Oletko varma että haluat tuhota plokin"
 
 #: plok/templates/plok/blog_detail.html:13
 msgid "New article"
-msgstr "Uusi artikkeli"
+msgstr "Uusi juttu"
 
-#: plok/templates/plok/blog_list.html:16
+#: plok/templates/plok/blog_list.html:21
 msgid "Creator"
 msgstr "Tekijä"
 
@@ -218,6 +221,10 @@ msgid ""
 "up</a>\n"
 "for a %(site_name)s account and sign in below:"
 msgstr ""
+"Kirjaudu sisään jollain\n"
+"olemassaolevalla tunnuksellasi tai <a href=\"%(signup_url)s\">luo tunnus</"
+"a>\n"
+"%(site_name)s:in."
 
 #: users/templates/account/login.html:37
 msgid "or"
@@ -241,6 +248,8 @@ msgstr "Unohtuiko salasana?"
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
 msgstr ""
+"Jos sinulla on jo tunnukset, <a href=\"%(login_url)s\">kirjaudu sisään "
+"tästä</a>."
 
 #: users/templates/auth/profile.html:12 users/templates/auth/user_list.html:10
 msgid "Username"
