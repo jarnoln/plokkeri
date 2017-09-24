@@ -71,10 +71,11 @@ class ArticleUpdate(UpdateView):
     model = Article
     slug_field = 'name'
     fields = ['title', 'text', 'description']
+    blog = None
 
     def dispatch(self, request, *args, **kwargs):
         self.blog = get_object_or_404(Blog, name=self.kwargs['blog_name'])
-        return super(ArticleUpdate, self).dispatch(request,*args, **kwargs)
+        return super(ArticleUpdate, self).dispatch(request, *args, **kwargs)
 
     def render_to_response(self, context, **response_kwargs):
         if self.object.can_edit(self.request.user):
@@ -87,7 +88,8 @@ class ArticleUpdate(UpdateView):
         if self.object.can_edit(self.request.user):
             return super(ArticleUpdate, self).form_valid(form)
         else:
-            logger.info("Not allowed to edit. Registered:%s Creator:%s" % (self.request.user.username, self.blog.created_by.username))
+            logger.info("Not allowed to edit. Registered:%s Creator:%s" % (
+                self.request.user.username, self.blog.created_by.username))
             return HttpResponseRedirect(reverse('plok:article', args=[self.blog.name, self.object.name]))
 
 
