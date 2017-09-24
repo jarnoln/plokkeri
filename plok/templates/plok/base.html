@@ -2,6 +2,8 @@
 
 {% load i18n %}
 
+{% get_current_language as LANGUAGE_CODE %}
+
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -26,6 +28,20 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'plok:about' %}"> {% trans 'About' %} </a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item">
+            <form method="post" action="{% url 'set_language' %}">
+              {% csrf_token %}
+              {% if LANGUAGE_CODE == 'fi' %}
+              <input type="hidden" name="language" value="en">
+              <button class="btn btn-link nav-link" id="navbar_set_language">english</button>
+              {% else %}
+              <input type="hidden" name="language" value="fi">
+              <button class="btn btn-link nav-link" id="navbar_set_language">suomeksi</button>
+              {% endif %}
+            </form>
           </li>
   {% if user.is_authenticated %}
     {% if user.is_staff %}

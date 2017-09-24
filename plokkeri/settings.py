@@ -32,10 +32,6 @@ else:
     LOG_DIR = os.path.join(SITE_DIR, 'log')
 assert os.path.exists(LOG_DIR), 'Log directory {} does not exist'.format(LOG_DIR)
 
-LOCALE_PATHS = [
-    '{}/locale'.format(BASE_DIR),
-]
-
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 SITE_ID = 1
@@ -134,6 +130,15 @@ TIME_ZONE = 'Europe/Helsinki'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+LOCALE_PATHS = [
+    '{}/locale'.format(BASE_DIR),
+]
+
+# LANGUAGES = [
+#    ('en-us', _('English')),
+#    ('fi', _('Finnish')),
+#]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

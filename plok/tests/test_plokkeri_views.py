@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.utils import translation
 
 
 class IndexPage(TestCase):
@@ -15,7 +16,7 @@ class IndexPage(TestCase):
 class AboutPage(TestCase):
     url_name = 'plok:about'
 
-    def test_reverse_plokkeri(self):
+    def test_reverse(self):
         self.assertEqual(reverse(self.url_name), '/about/')
 
     def test_default_content(self):
@@ -29,3 +30,26 @@ class AboutPage(TestCase):
     def test_uses_correct_template(self):
         response = self.client.get(reverse(self.url_name))
         self.assertTemplateUsed(response, 'plok/about.html')
+
+
+class ChangeLanguage(TestCase):
+    url_name = 'set_language'
+
+    def test_reverse(self):
+        self.assertEqual(reverse(self.url_name), '/i18n/setlang/')
+
+    def test_change_language(self):
+        response = self.client.get(reverse('plok:index'))
+        self.assertEqual(translation.get_language(), 'fi')
+        self.assertEqual(response.context['title'], 'Jutut')
+        response = self.client.post(reverse(self.url_name), data={
+            'language': 'en',
+            'next': reverse('plok:index')
+        }, follow=True)
+        self.assertTemplateUsed(response, 'plok/article_list.html')
+        self.assertEqual(response.context['title'], 'Articles')
+        response = self.client.post(reverse(self.url_name), data={
+            'language': 'fi',
+            'next': reverse('plok:index')
+        }, follow=True)
+        self.assertEqual(response.context['title'], 'Jutut')

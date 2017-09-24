@@ -17,7 +17,7 @@ class ArticleList(ListView):
         context = super(ArticleList, self).get_context_data(**kwargs)
         context['message'] = self.request.GET.get('message', '')
         context['page'] = "blogs"
-        context['title'] = "Articles"
+        context['title'] = ugettext("Articles")
         context['can_add'] = self.request.user.is_superuser
         return context
 
@@ -26,6 +26,7 @@ class ArticleDetail(DetailView):
     model = Article
     slug_field = 'name'
     context_object_name = 'article'
+    blog = None
 
     def get_queryset(self):
         self.blog = get_object_or_404(Blog, name=self.kwargs['blog_name'])

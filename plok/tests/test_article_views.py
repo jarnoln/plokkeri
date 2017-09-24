@@ -1,5 +1,6 @@
 # from unittest import skip
 from django.test import TestCase
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib import auth
 from plok.models import Blog, Article
@@ -23,8 +24,8 @@ class ArticleList(TestCase):
         Article.objects.create(created_by=creator, blog=blog1, name="test_article_1", title="Test article 1")
         Article.objects.create(created_by=creator, blog=blog2, name="test_article_2", title="Test article 2")
 
+        self.client.cookies.load({settings.LANGUAGE_COOKIE_NAME: 'en-us'})
         response = self.client.get(reverse(self.url_name))
-        # self.assertEqual(response.context['page'], 'blogs')
         self.assertEqual(response.context['title'], 'Articles')
         self.assertEqual(response.context['article_list'].count(), 2)
         # self.assertEqual(response.context['article_list'][0], article2)  # Reverse ordering can't be tested
