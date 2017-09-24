@@ -1,8 +1,8 @@
 # from unittest import skip
-from django.test import TestCase
-from django.core.urlresolvers import reverse
-# from django.contrib.auth.models import User, AnonymousUser
+from django.conf import settings
 from django.contrib import auth
+from django.core.urlresolvers import reverse
+from django.test import TestCase
 from plok.models import Blog, Article
 from .ext_test_case import ExtTestCase
 
@@ -98,6 +98,7 @@ class CreateBlogPage(ExtTestCase):
 
     def test_default_context(self):
         self.create_and_log_in_user()
+        self.client.cookies.load({settings.LANGUAGE_COOKIE_NAME: 'en-us'})
         response = self.client.get(reverse(self.url_name))
         self.assertEqual(response.context['title'], 'Create new blog')
         self.assertEqual(response.context['message'], '')
@@ -123,6 +124,7 @@ class CreateBlogPage(ExtTestCase):
         user = self.create_and_log_in_user()
         Blog.objects.create(created_by=user, name="test_blog", title="Test blog")
         self.assertEqual(Blog.objects.all().count(), 1)
+        self.client.cookies.load({settings.LANGUAGE_COOKIE_NAME: 'en-us'})
         response = self.client.post(
             reverse(self.url_name),
             {

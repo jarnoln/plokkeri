@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib import auth
 from .ext_test_case import ExtTestCase
@@ -12,6 +13,7 @@ class SignupTest(TestCase):
         self.assertEqual(reverse('account_signup'), '/accounts/signup/')
 
     def test_default_content(self):
+        self.client.cookies.load({settings.LANGUAGE_COOKIE_NAME: 'en-us'})
         response = self.client.get(reverse('account_signup'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Sign Up')
@@ -42,6 +44,7 @@ class LoginTest(TestCase):
         self.assertEqual(reverse('account_login'), '/accounts/login/')
 
     def test_default_content(self):
+        self.client.cookies.load({settings.LANGUAGE_COOKIE_NAME: 'en-us'})
         response = self.client.get(reverse('account_login'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Sign In')

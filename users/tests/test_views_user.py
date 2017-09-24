@@ -1,5 +1,6 @@
-from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.contrib import auth
+from django.core.urlresolvers import reverse
 from .ext_test_case import ExtTestCase
 
 
@@ -42,6 +43,7 @@ class UserDetailTest(ExtTestCase):
 
     def test_default_content(self):
         user = self.create_and_log_in_user()
+        self.client.cookies.load({settings.LANGUAGE_COOKIE_NAME: 'en-us'})
         response = self.client.get(reverse('profile'))
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context['user'].is_authenticated())

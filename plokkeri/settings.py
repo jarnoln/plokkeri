@@ -128,8 +128,8 @@ DEFAULT_FROM_EMAIL = 'accounts@plokkeri.fi'  # Used for normal emails (mostly ac
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
-LANGUAGE_CODE = 'en-us'
-# LANGUAGE_CODE = 'fi'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fi'
 TIME_ZONE = 'Europe/Helsinki'
 USE_I18N = True
 USE_L10N = True
