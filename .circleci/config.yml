@@ -28,12 +28,12 @@ jobs:
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
-          command: python cvdb/generate_passwords.py cvdb/passwords.py
+          command: python plokkeri/generate_passwords.py plokkeri/passwords.py
       - run:
           command: python manage.py test
       - run:
           name: Run coverage
           command: |
-            coverage run --source=api01,users,viewcv manage.py test -v2
+            coverage run --source=users,plokkeri manage.py test -v2
             codecov
             coverage report
