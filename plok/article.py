@@ -62,7 +62,6 @@ class ArticleCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(ArticleCreate, self).get_context_data(**kwargs)
-        context['title'] = ugettext('Create new article')
         context['message'] = self.request.GET.get('message', '')
         return context
 

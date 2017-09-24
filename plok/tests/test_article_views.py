@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 # from django.contrib.auth.models import User, AnonymousUser
 from django.contrib import auth
+from django.utils.translation import activate
 from plok.models import Blog, Article
 from .ext_test_case import ExtTestCase
 
@@ -91,7 +92,6 @@ class CreateArticlePage(ExtTestCase):
         user = self.create_and_log_in_user()
         blog = Blog.objects.create(created_by=user, name="test_blog", title="Test blog")
         response = self.client.get(reverse(self.url_name, args=[blog.name]))
-        self.assertEqual(response.context['title'], 'Create new article')
         self.assertEqual(response.context['message'], '')
 
     def test_can_create_new_article(self):

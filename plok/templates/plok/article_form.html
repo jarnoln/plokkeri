@@ -1,8 +1,15 @@
 {% extends "plok/base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block head_title %}
+  {% if article %}
+    {{ article.title }}
+  {% else %}
+    {% trans "Create new article" %}
+  {% endif %}
+{% endblock %}
 
+{% block content %}
 {% if article %}
 <h1> {{ article.title }} </h1>
 {% else %}
