@@ -1,2 +1,2 @@
 [digitalocean]
-plokkeri.fi ansible_user=django app_name=plokkeri
+plokkeri.fi ansible_user=django app_name=plokkeri host_alias=plokkeri.com

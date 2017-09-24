@@ -2,7 +2,7 @@ server {
     listen 80;
     listen 443 ssl;
 
-    server_name {{ host }} www.{{ host }} staging.{{ host }};
+    server_name {{ host }} www.{{ host }} staging.{{ host }} {{ host_alias }} www.{{ host_alias }};
     ssl_certificate /etc/letsencrypt/live/{{ host }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/{{ host }}/privkey.pem;
 
