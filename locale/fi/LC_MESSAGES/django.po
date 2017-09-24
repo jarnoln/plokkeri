@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-24 19:44+0300\n"
+"POT-Creation-Date: 2017-09-25 00:04+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: plok/article.py:20 plok/templates/plok/article_list.html:4
+#: plok/templates/plok/article_list.html:12 plok/templates/plok/base.html:27
+#: plok/templates/plok/blog_list.html:20
+msgid "Articles"
+msgstr "Jutut"
 
 #: plok/blog.py:46 plok/templates/plok/blog_form.html:10
 msgid "Create new blog"
@@ -54,7 +60,7 @@ msgstr "Sivua ei löydy"
 msgid "The page you requested could not be found."
 msgstr "Haettua sivua ei löydy"
 
-#: plok/templates/plok/about.html:4 plok/templates/plok/base.html:28
+#: plok/templates/plok/about.html:4 plok/templates/plok/base.html:30
 msgid "About"
 msgstr "Tietoja"
 
@@ -96,7 +102,7 @@ msgstr "Tehnyt"
 #: plok/templates/plok/article_detail.html:28
 #: plok/templates/plok/blog_detail.html:48
 msgid "on"
-msgstr ""
+msgstr "pvm"
 
 #: plok/templates/plok/article_form.html:8
 #: plok/templates/plok/article_form.html:16
@@ -133,12 +139,6 @@ msgstr "Varsinainen jutun sisältö. Voi käyttää HTML-tageja tai JavaScripti�
 msgid "Save"
 msgstr "Tallenna"
 
-#: plok/templates/plok/article_list.html:4
-#: plok/templates/plok/article_list.html:12 plok/templates/plok/base.html:25
-#: plok/templates/plok/blog_list.html:20
-msgid "Articles"
-msgstr "Jutut"
-
 #: plok/templates/plok/article_list.html:17
 #: plok/templates/plok/blog_list.html:19
 msgid "Blog"
@@ -152,7 +152,7 @@ msgstr "Juttu"
 #: plok/templates/plok/article_list.html:19
 #: plok/templates/plok/blog_detail.html:24
 msgid "Created"
-msgstr "Luotu"
+msgstr "Tehty"
 
 #: plok/templates/plok/article_list.html:21
 #: plok/templates/plok/blog_detail.html:26
@@ -164,33 +164,33 @@ msgstr "Toiminnot"
 msgid "Add new blog"
 msgstr "Lisää uusi ploki"
 
-#: plok/templates/plok/base.html:19
+#: plok/templates/plok/base.html:21
 msgid "Home"
 msgstr "Etusivu"
 
-#: plok/templates/plok/base.html:22 plok/templates/plok/blog_list.html:4
+#: plok/templates/plok/base.html:24 plok/templates/plok/blog_list.html:4
 #: plok/templates/plok/blog_list.html:12
 msgid "Blogs"
 msgstr "Plokit"
 
-#: plok/templates/plok/base.html:33
+#: plok/templates/plok/base.html:49
 msgid "Admin"
 msgstr "Admin"
 
-#: plok/templates/plok/base.html:36 users/templates/auth/user_list.html:3
+#: plok/templates/plok/base.html:52 users/templates/auth/user_list.html:3
 #: users/templates/auth/user_list.html:6
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: plok/templates/plok/base.html:45
+#: plok/templates/plok/base.html:61
 msgid "Logout"
 msgstr "Logout"
 
-#: plok/templates/plok/base.html:51 plok/templates/plok/base.html:57
+#: plok/templates/plok/base.html:67 plok/templates/plok/base.html:73
 msgid "Login"
 msgstr "Kirjaudu"
 
-#: plok/templates/plok/base.html:54 plok/templates/plok/base.html:60
+#: plok/templates/plok/base.html:70 plok/templates/plok/base.html:76
 #: users/templates/account/signup.html:5 users/templates/account/signup.html:8
 #: users/templates/account/signup.html:20
 msgid "Sign Up"
