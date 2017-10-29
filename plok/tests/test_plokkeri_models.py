@@ -49,6 +49,7 @@ class ArticleTests(ExtTestCase):
         article = Article(blog=blog, created_by=creator, slug="test_article")
         article.save()
         self.assertEqual(Article.objects.all().count(), 1)
+        self.assertEqual(Article.objects.first().format, 'html')
 
     def test_string(self):
         creator = auth.get_user_model().objects.create(username='creator')

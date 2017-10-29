@@ -38,6 +38,11 @@ class Blog(models.Model):
 
 
 class Article(models.Model):
+    FORMAT_CHOICES = (
+        ('html', 'HTML'),
+        ('markdown', 'Markdown'),
+    )
+
     blog = models.ForeignKey(Blog, null=False)
     name = models.SlugField(max_length=100, unique=True, verbose_name=ugettext_lazy('name'),
                             help_text=ugettext_lazy('Must be unique. Used in URL.'))
@@ -47,6 +52,7 @@ class Article(models.Model):
     text = models.TextField(null=True, blank=True, verbose_name=ugettext_lazy('text'))  # Actual blog content
     language = models.CharField(max_length=50, choices=settings.LANGUAGES, default='en',
                                 verbose_name=ugettext_lazy('language'))
+    format = models.CharField(max_length=50, choices=FORMAT_CHOICES, default='html')
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(auth.get_user_model(), related_name='article_created_by')
     edited = models.DateTimeField(auto_now=True)
