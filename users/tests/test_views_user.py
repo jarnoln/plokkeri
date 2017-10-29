@@ -51,7 +51,6 @@ class UserDetailTest(ExtTestCase):
         self.assertNotIn('Delete account', html)
 
     def test_try_viewing_non_existing_user(self):
-        self.create_and_log_in_user()
         response = self.client.get(reverse('user_detail', args=['dummy_user']))
         self.assertTemplateUsed(response, '404.html')
 
@@ -139,6 +138,14 @@ class UpdateUserTest(ExtTestCase):
         self.assertEqual(auth.get_user_model().objects.all().count(), 2)
         user = auth.get_user_model().objects.get(username='other')
         self.assertEqual(user.first_name, 'Clark')
+        self.assertTemplateUsed(response, '404.html')
+
+    def test_cant_update_missing_user(self):
+        logged_user = self.create_and_log_in_user()
+        response = self.client.post(reverse('user_update', args=['dummy_user']),
+                                    {'username': 'other', 'first_name': 'Bruce'},
+                                    follow=True)
+        self.assertEqual(auth.get_user_model().objects.all().count(), 1)
         self.assertTemplateUsed(response, '404.html')
 
 
