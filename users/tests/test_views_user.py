@@ -70,6 +70,11 @@ class UserDetailTest(ExtTestCase):
         self.assertInHTML(target_user.email, html)
         self.assertNotIn('Delete account', html)
 
+    def test_try_viewing_non_existing_user(self):
+        self.create_and_log_in_user()
+        response = self.client.get(reverse('user_detail', args=['fake_user']))
+        self.assertTemplateUsed(response, '404.html')
+
     def test_cant_view_profile_if_not_logged_in(self):
         auth.get_user_model().objects.create(username='user')
         response = self.client.get(reverse('profile'), follow=True)

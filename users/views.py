@@ -3,6 +3,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.http import Http404
 from django.contrib import auth
+from django.shortcuts import get_object_or_404
 
 
 def can_edit_user(logged_user, target_user):
@@ -31,7 +32,9 @@ class UserDetail(DetailView):
         target_username = self.kwargs.get('slug', '')
         if target_username:
             # return auth.models.User.objects.get(username=target_username)
-            return auth.get_user_model().objects.get(username=target_username)
+            target_user = get_object_or_404(auth.get_user_model(), username=target_username)
+            return target_user
+
         return auth.get_user(self.request)
 
 
