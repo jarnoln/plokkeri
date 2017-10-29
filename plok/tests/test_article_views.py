@@ -173,7 +173,7 @@ class UpdateArticlePage(ExtTestCase):
         article = Article.objects.create(blog=blog, created_by=user, name="test_article", title="Test article")
         self.assertEqual(Blog.objects.all().count(), 1)
         response = self.client.post(reverse(self.url_name, args=[blog.name, article.name]),
-                                    {'title': 'Article updated', 'text': 'Updated'},
+                                    {'title': 'Article updated', 'text': 'Updated', 'format': 'markdown'},
                                     follow=True)
         self.assertEqual(Article.objects.all().count(), 1)
         article = Article.objects.all()[0]
@@ -182,6 +182,7 @@ class UpdateArticlePage(ExtTestCase):
         self.assertTemplateUsed(response, 'plok/article_detail.html')
         self.assertEqual(response.context['article'].title, 'Article updated')
         self.assertEqual(response.context['article'].text, 'Updated')
+        self.assertEqual(response.context['article'].format, 'markdown')
 
     def test_cant_edit_without_logging_in(self):
         creator = auth.get_user_model().objects.create(username='creator')

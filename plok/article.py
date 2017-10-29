@@ -70,7 +70,7 @@ class ArticleCreate(CreateView):
 class ArticleUpdate(UpdateView):
     model = Article
     slug_field = 'name'
-    fields = ['title', 'text', 'description']
+    fields = ['title', 'text', 'description', 'format']
     blog = None
 
     def dispatch(self, request, *args, **kwargs):
