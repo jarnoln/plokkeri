@@ -1,5 +1,5 @@
 import logging
-
+from markdown import markdown
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, Http404
@@ -38,6 +38,10 @@ class ArticleDetail(DetailView):
         context['description'] = self.object.description
         context['message'] = self.request.GET.get('message', '')
         context['can_edit'] = self.object.can_edit(self.request.user)
+        if self.object.format == 'markdown':
+            context['content'] = markdown(self.object.text)
+        else:
+            context['content'] = self.object.text
         return context
 
 

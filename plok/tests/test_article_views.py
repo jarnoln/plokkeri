@@ -66,9 +66,31 @@ class ArticlePage(ExtTestCase):
         self.assertEqual(response.context['title'], 'Test article')
         self.assertEqual(response.context['description'], article.description)
         self.assertEqual(response.context['message'], '')
+        self.assertEqual(response.context['content'], article.text)
         self.assertContains(response, article.title)
         self.assertContains(response, article.description)
         self.assertContains(response, article.text)
+
+    def test_formats(self):
+        text = '# Title'
+        user = self.create_and_log_in_user()
+        blog = Blog.objects.create(created_by=user, name="test_blog")
+        article = Article.objects.create(blog=blog, created_by=user, name="test_article", title="Test article",
+                                         format='html', text=text)
+        response = self.client.get(reverse(self.url_name, args=[blog.name, article.name]))
+        self.assertEqual(response.context['content'], text)
+        self.assertContains(response, text)
+        article.format = 'markdown'
+        article.save()
+        response = self.client.get(reverse(self.url_name, args=[blog.name, article.name]))
+        self.assertEqual(response.context['content'], '<h1>Title</h1>')
+        self.assertContains(response, '<h1>Title</h1>')
+
+    def test_404_no_article(self):
+        user = self.create_and_log_in_user()
+        blog = Blog.objects.create(created_by=user, name="test_blog")
+        response = self.client.get(reverse(self.url_name, args=[blog.name, 'test_article']))
+        self.assertTemplateUsed(response, '404.html')
 
     def test_404_no_blog_nor_article(self):
         response = self.client.get(reverse(self.url_name, args=['test_blog', 'test_article']))
