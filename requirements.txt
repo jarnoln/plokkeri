@@ -1,12 +1,12 @@
-certifi==2017.7.27.1
+certifi==2018.1.18
 chardet==3.0.4
 defusedxml==0.5.0
 Django==2.0.2
-django-allauth==0.33.0
+django-allauth==0.35.0
 gunicorn==19.7.1
 idna==2.6
-Markdown==2.6.9
-oauthlib==2.0.3
+Markdown==2.6.11
+oauthlib==2.0.6
 python3-openid==3.1.0
 pytz==2018.3
 requests==2.18.4
