@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib import auth
 from .ext_test_case import ExtTestCase
 
@@ -33,7 +33,7 @@ class SignupTest(TestCase):
             'password1': 'password',
             'password2': 'password'}, follow=True)
         self.assertEqual(auth.models.User.objects.count(), 1)
-        self.assertTrue(response.context['user'].is_authenticated())
+        self.assertTrue(response.context['user'].is_authenticated)
         self.assertEqual(response.context['user'], auth.models.User.objects.first())
         html = response.content.decode('utf8')
         self.assertInHTML('Logout', html)
@@ -64,7 +64,7 @@ class LoginTest(TestCase):
             'login': user.username,
             'password': 'password',
             'next': reverse('plok:index')}, follow=True)
-        self.assertTrue(response.context['user'].is_authenticated())
+        self.assertTrue(response.context['user'].is_authenticated)
         self.assertEqual(response.context['user'], user)
         html = response.content.decode('utf8')
         self.assertInHTML('Logout', html)

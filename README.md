@@ -4,10 +4,11 @@
 [![codecov](https://codecov.io/gh/jarnoln/plokkeri/branch/master/graph/badge.svg)](https://codecov.io/gh/jarnoln/plokkeri)
 
 Simple blogging platform by [Jarno Luoma-Nirva](http://jln.fi).
+[GitHub](https://github.com/jarnoln/plokkeri)
 
 Using
 -----
- - [Python](https://www.python.org/)(3.5) and [Django](https://www.djangoproject.com/)(1.11)
+ - [Python](https://www.python.org/)(3.5) and [Django](https://www.djangoproject.com/)(2.0)
  - [GitHub](https://github.com/jarnoln/plokkeri/) for version control
  - [Ansible](https://www.ansible.com/) for provisioning servers
  - [Fabric](http://www.fabfile.org/) for automated deployments

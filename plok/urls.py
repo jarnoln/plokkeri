@@ -4,7 +4,7 @@ from .blog import BlogList, BlogDetail, BlogCreate, BlogUpdate, BlogDelete
 from .article import ArticleList, ArticleDetail, ArticleCreate, ArticleUpdate, ArticleDelete
 from .about import AboutView
 
-
+app_name = 'plok'
 urlpatterns = [
     url(r'^create/$', login_required(BlogCreate.as_view()), name='blog_create'),
     url(r'^list/$', BlogList.as_view(), name='blog_list'),
