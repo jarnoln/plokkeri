@@ -79,3 +79,17 @@ class Article(models.Model):
 
     class Meta:
         ordering = ['-created']  # Default ordering by points (descending)
+
+
+class Comment(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=False)
+    reply_to = models.ForeignKey('self', on_delete=models.CASCADE, null=True, default=None, blank=True)
+    text = models.TextField(null=True, blank=True, verbose_name=ugettext_lazy('text'))  # Actual comment
+    created = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(auth.get_user_model(), on_delete=models.CASCADE, related_name='comment_created_by')
+    edited = models.DateTimeField(auto_now=True)
+    edited_by = models.ForeignKey(auth.get_user_model(), on_delete=models.SET_NULL, null=True,
+                                  related_name='comment_edited_by')
+
+    def __str__(self):
+        return '{}:{}'.format(self.article.name, self.created_by.username)

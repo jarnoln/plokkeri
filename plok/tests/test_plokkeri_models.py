@@ -1,6 +1,6 @@
 from django.db import IntegrityError
 from django.contrib import auth
-from plok.models import Blog, Article
+from plok.models import Blog, Article, Comment
 from .ext_test_case import ExtTestCase
 
 
@@ -60,3 +60,27 @@ class ArticleTests(ExtTestCase):
         article = Article()
         with self.assertRaises(IntegrityError):
             article.save()
+
+
+class CommentTests(ExtTestCase):
+    def can_save_and_load_article(self):
+        creator = auth.get_user_model().objects.create(username='creator')
+        blog = Blog.objects.create(created_by=creator, name="test_blog")
+        article = Article.objects.create(blog=blog, created_by=creator, name="test_article")
+        self.assertEqual(Comment.objects.all().count(), 0)
+        instance = Comment(article=article, created_by=creator, text='Comment')
+        instance.save()
+        self.assertEqual(Comment.objects.all().count(), 1)
+        self.assertEqual(Article.objects.first().reply_to, None)
+
+    def test_string(self):
+        creator = auth.get_user_model().objects.create(username='creator')
+        blog = Blog.objects.create(created_by=creator, name="test_blog", title="Test blog")
+        article = Article.objects.create(blog=blog, created_by=creator, name="test_article")
+        comment = Comment.objects.create(article=article, created_by=creator, text='Comment')
+        self.assertEqual(str(comment), '{}:{}'.format(article.name, creator.username))
+
+    def test_saving_article_without_name_or_creator_fails(self):
+        comment = Comment()
+        with self.assertRaises(IntegrityError):
+            comment.save()

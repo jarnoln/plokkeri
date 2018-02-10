@@ -31,4 +31,5 @@ Installing
 3. Add your host to ansible/inventory. Then:
 
     ansible-playbook -i ansible/inventory ansible/provision-deb.yaml
+
     fab -f fabfile.py deploy:host=user@host
