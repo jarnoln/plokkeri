@@ -1,7 +1,7 @@
 # from unittest import skip
 from django.conf import settings
 from django.contrib import auth
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from plok.models import Blog, Article
 from .ext_test_case import ExtTestCase

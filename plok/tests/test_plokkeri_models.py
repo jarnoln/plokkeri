@@ -1,4 +1,3 @@
-#from unittest import skip
 from django.db import IntegrityError
 from django.contrib import auth
 from plok.models import Blog, Article

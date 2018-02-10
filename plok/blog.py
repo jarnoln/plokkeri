@@ -1,11 +1,11 @@
 import logging
 
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.urls import reverse, reverse_lazy
+from django.http import HttpResponseRedirect, Http404
 from django.utils.translation import ugettext
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from plok.models import Blog, Article
+from plok.models import Blog
 
 
 class BlogList(ListView):

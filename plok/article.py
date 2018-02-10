@@ -1,8 +1,8 @@
 import logging
 from markdown import markdown
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, Http404
+from django.http import HttpResponseRedirect, HttpResponseNotAllowed, Http404
 from django.utils.translation import ugettext
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView

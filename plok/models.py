@@ -1,9 +1,8 @@
 from django.db import models
-# from django.contrib.auth.models import User
 from django.contrib import auth
 from django.utils.translation import ugettext_lazy
 from django.conf import settings  # For available languages
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 class Blog(models.Model):
