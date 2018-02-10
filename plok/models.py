@@ -13,9 +13,10 @@ class Blog(models.Model):
     language = models.CharField(max_length=50, choices=settings.LANGUAGES, default='en',
                                 verbose_name=ugettext_lazy('language'))
     created = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(auth.get_user_model(), related_name='blog_created_by')
+    created_by = models.ForeignKey(auth.get_user_model(), on_delete=models.CASCADE, related_name='blog_created_by')
     edited = models.DateTimeField(auto_now=True)
-    edited_by = models.ForeignKey(auth.get_user_model(), null=True, related_name='blog_edited_by')
+    edited_by = models.ForeignKey(auth.get_user_model(), on_delete=models.SET_NULL, null=True,
+                                  related_name='blog_edited_by')
 
     def articles(self):
         return Article.objects.filter(blog=self)
@@ -42,7 +43,7 @@ class Article(models.Model):
         ('markdown', 'Markdown'),
     )
 
-    blog = models.ForeignKey(Blog, null=False)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=False)
     name = models.SlugField(max_length=100, unique=True, verbose_name=ugettext_lazy('name'),
                             help_text=ugettext_lazy('Must be unique. Used in URL.'))
     title = models.CharField(max_length=250, verbose_name=ugettext_lazy('title'))
@@ -53,9 +54,10 @@ class Article(models.Model):
                                 verbose_name=ugettext_lazy('language'))
     format = models.CharField(max_length=50, choices=FORMAT_CHOICES, default='html')
     created = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(auth.get_user_model(), related_name='article_created_by')
+    created_by = models.ForeignKey(auth.get_user_model(), on_delete=models.CASCADE, related_name='article_created_by')
     edited = models.DateTimeField(auto_now=True)
-    edited_by = models.ForeignKey(auth.get_user_model(), null=True, related_name='article_edited_by')
+    edited_by = models.ForeignKey(auth.get_user_model(), on_delete=models.SET_NULL, null=True,
+                                  related_name='article_edited_by')
 
     def can_edit(self, user):
         if user == self.created_by:
