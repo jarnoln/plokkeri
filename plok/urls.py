@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import path
 from django.contrib.auth.decorators import login_required
 from .blog import BlogList, BlogDetail, BlogCreate, BlogUpdate, BlogDelete
 from .article import ArticleList, ArticleDetail, ArticleCreate, ArticleUpdate, ArticleDelete
@@ -8,22 +8,22 @@ from .about import AboutView
 
 app_name = 'plok'
 urlpatterns = [
-    url(r'^create/$', login_required(BlogCreate.as_view()), name='blog_create'),
-    url(r'^list/$', BlogList.as_view(), name='blog_list'),
-    url(r'^article_list/$', ArticleList.as_view(), name='article_list'),
-    url(r'^about/$', AboutView.as_view(), name='about'),
-    url(r'^plok/(?P<slug>\w+)/update/$', login_required(BlogUpdate.as_view()), name='blog_update'),
-    url(r'^plok/(?P<slug>\w+)/delete/$', login_required(BlogDelete.as_view()), name='blog_delete'),
-    url(r'^plok/(?P<blog_name>\w+)/create_article/$', login_required(ArticleCreate.as_view()), name='article_create'),
-    url(r'^plok/(?P<slug>.\w+)/$', BlogDetail.as_view(), name='blog'),
-    url(r'^plok/(?P<blog_name>\w+)/(?P<slug>\w+)/delete/$',
-        login_required(ArticleDelete.as_view()), name='article_delete'),
-    url(r'^plok/(?P<blog_name>\w+)/(?P<slug>\w+)/update/$',
-        login_required(ArticleUpdate.as_view()), name='article_update'),
-    url(r'^plok/(?P<blog_name>\w+)/(?P<article_name>\w+)/comment/(?P<pk>\d+)/edit/$',
-        login_required(CommentUpdate.as_view()), name='comment_update'),
-    url(r'^plok/(?P<blog_name>\w+)/(?P<article_name>\w+)/comment/create/$',
-        login_required(CommentCreate.as_view()), name='comment_create'),
-    url(r'^plok/(?P<blog_name>\w+)/(?P<slug>\w+)/$', ArticleDetail.as_view(), name='article'),
-    url(r'^$', ArticleList.as_view(), name='index'),
+    path('create/', login_required(BlogCreate.as_view()), name='blog_create'),
+    path('list/', BlogList.as_view(), name='blog_list'),
+    path('article_list/', ArticleList.as_view(), name='article_list'),
+    path('about/', AboutView.as_view(), name='about'),
+    path('plok/<slug:slug>/update/', login_required(BlogUpdate.as_view()), name='blog_update'),
+    path('plok/<slug:slug>/delete/', login_required(BlogDelete.as_view()), name='blog_delete'),
+    path('plok/<slug:blog_name>/create_article/', login_required(ArticleCreate.as_view()), name='article_create'),
+    path('plok/<slug:slug>/', BlogDetail.as_view(), name='blog'),
+    path('plok/<slug:blog_name>/<slug:slug>/delete/',
+         login_required(ArticleDelete.as_view()), name='article_delete'),
+    path('plok/<slug:blog_name>/<slug:slug>/update/',
+         login_required(ArticleUpdate.as_view()), name='article_update'),
+    path('plok/<slug:blog_name>/<slug:article_name>/comment/<int:pk>/edit/',
+         login_required(CommentUpdate.as_view()), name='comment_update'),
+    path('plok/<slug:blog_name>/<slug:article_name>/comment/create/',
+         login_required(CommentCreate.as_view()), name='comment_create'),
+    path('plok/<slug:blog_name>/<slug:slug>/', ArticleDetail.as_view(), name='article'),
+    path('', ArticleList.as_view(), name='index'),
 ]
