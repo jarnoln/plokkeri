@@ -29,6 +29,13 @@
     </small>
 </div>
 
+<h3> {% trans 'Comments' %}: {{ article.comments.count }}</h3>
+
+{% for comment  in article.comments %}
+<div> {{ comment.created_by.username }} {% trans 'on' %} {{ comment.created|date:"Y-m-d H:m" }} </div>
+<div> {{ comment.text }} </div>
+{% endfor %}
+
   </div>
   <div class="col-md-2"> &nbsp;</div>
 </div>

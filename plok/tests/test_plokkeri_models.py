@@ -61,6 +61,17 @@ class ArticleTests(ExtTestCase):
         with self.assertRaises(IntegrityError):
             article.save()
 
+    def test_comments(self):
+        creator = auth.get_user_model().objects.create(username='creator')
+        blog = Blog.objects.create(created_by=creator, name="test_blog", title="Test blog")
+        article = Article.objects.create(blog=blog, created_by=creator, name="test_article")
+        self.assertEqual(article.comments.count(), 0)
+        comment = Comment.objects.create(article=article, created_by=creator, text='Comment')
+        self.assertEqual(article.comments.count(), 1)
+        self.assertEqual(article.comments.first(), comment)
+        Comment.objects.create(article=article, created_by=creator, text='Comment')
+        self.assertEqual(article.comments.count(), 2)
+
 
 class CommentTests(ExtTestCase):
     def can_save_and_load_article(self):

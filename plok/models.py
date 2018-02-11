@@ -59,6 +59,11 @@ class Article(models.Model):
     edited_by = models.ForeignKey(auth.get_user_model(), on_delete=models.SET_NULL, null=True,
                                   related_name='article_edited_by')
 
+    @property
+    def comments(self):
+        comments = Comment.objects.filter(article=self).order_by('created')
+        return comments
+
     def can_edit(self, user):
         if user == self.created_by:
             return True
