@@ -63,6 +63,65 @@ class CreateCommentPage(ExtTestCase):
             follow=True)
         self.assertEqual(Comment.objects.all().count(), 1)
         self.assertEqual(Comment.objects.first().text, 'Clever comment')
+        self.assertContains(response, 'Clever comment')
+        self.assertEqual(response.context['article'], article)
+
+    def test_cant_create_comment_if_not_logged_in(self):
+        creator = auth.get_user_model().objects.create(username='creator')
+        blog = Blog.objects.create(created_by=creator, name="test_blog", title="Test blog", description="Testing")
+        article = Article.objects.create(blog=blog, created_by=creator, name="test_article", title="Test article",
+                                         description="Article description", text="Some content")
+        response = self.client.get(reverse(self.url_name, args=[blog.name, article.name]), follow=True)
+        # self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertTemplateUsed(response, 'account/login.html')
+
+
+class UpdateCommentPage(ExtTestCase):
+    url_name = 'plok:comment_update'
+
+    def test_reverse(self):
+        self.assertEqual(reverse(self.url_name, args=['test_blog', 'test_article', '1']),
+                         '/plok/test_blog/test_article/comment/1/edit/')
+
+    def test_edit_url(self):
+        user = self.create_and_log_in_user()
+        blog = Blog.objects.create(created_by=user, name="test_blog")
+        article = Article.objects.create(blog=blog, created_by=user, name="test_article")
+        comment = Comment.objects.create(article=article, created_by=user, text='Old comment')
+        self.assertEqual(comment.edit_url, reverse(self.url_name, args=[blog.name, article.name, comment.id]))
+
+    def test_uses_correct_template(self):
+        user = self.create_and_log_in_user()
+        blog = Blog.objects.create(created_by=user, name="test_blog", title="Test blog")
+        article = Article.objects.create(blog=blog, created_by=user, name="test_article", title="Test article",
+                                         description="Article description", text="Some content")
+        comment = Comment.objects.create(article=article, created_by=user, text='Old comment')
+        response = self.client.get(reverse(self.url_name, args=[blog.name, article.name, comment.id]))
+        self.assertTemplateUsed(response, 'plok/comment_form.html')
+
+    def test_default_context(self):
+        user = self.create_and_log_in_user()
+        blog = Blog.objects.create(created_by=user, name="test_blog", title="Test blog")
+        article = Article.objects.create(blog=blog, created_by=user, name="test_article", title="Test article",
+                                         description="Article description", text="Some content")
+        comment = Comment.objects.create(article=article, created_by=user, text='Old comment')
+        response = self.client.get(reverse(self.url_name, args=[blog.name, article.name, comment.id]))
+        self.assertEqual(response.context['message'], '')
+
+    def test_can_update_comment(self):
+        user = self.create_and_log_in_user()
+        blog = Blog.objects.create(created_by=user, name="test_blog", title="Test blog")
+        article = Article.objects.create(blog=blog, created_by=user, name="test_article", title="Test article",
+                                         description="Article description", text="Some content")
+        comment = Comment.objects.create(article=article, created_by=user, text='Old comment')
+        response = self.client.post(reverse(
+            self.url_name, args=[blog.name, article.name, comment.id]),
+            {
+                'text': 'New comment'
+            },
+            follow=True)
+        self.assertEqual(Comment.objects.all().count(), 1)
+        self.assertEqual(Comment.objects.first().text, 'New comment')
         # self.assertEqual(response.context['article'].blog, blog)
         # self.assertEqual(response.context['article'].title, 'Test article')
         # self.assertEqual(response.context['article'].text, 'For testing')
@@ -72,6 +131,7 @@ class CreateCommentPage(ExtTestCase):
         blog = Blog.objects.create(created_by=creator, name="test_blog", title="Test blog", description="Testing")
         article = Article.objects.create(blog=blog, created_by=creator, name="test_article", title="Test article",
                                          description="Article description", text="Some content")
-        response = self.client.get(reverse(self.url_name, args=[blog.name, article.name]), follow=True)
+        comment = Comment.objects.create(article=article, created_by=creator, text='Old comment')
+        response = self.client.get(reverse(self.url_name, args=[blog.name, article.name, comment.id]), follow=True)
         # self.assertTemplateUsed(response, 'registration/login.html')
         self.assertTemplateUsed(response, 'account/login.html')

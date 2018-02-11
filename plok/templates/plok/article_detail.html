@@ -33,7 +33,14 @@
 
 {% for comment  in article.comments %}
   <div class="comment"> {{ comment.text }} </div>
-  <div> <small>{{ comment.created_by.username }} {% trans 'on' %} {{ comment.created|date:"Y-m-d H:m" }} </small> </div>
+  <div>
+    <small>
+      {{ comment.created_by.username }} - {{ comment.created|date:"Y-m-d H:m" }}
+  {% if comment.created_by == user %}
+      <a href="{{ comment.edit_url }}">{% trans 'Edit' %}</a>
+  {% endif %}
+    </small>
+  </div>
 {% endfor %}
 
 <div>

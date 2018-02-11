@@ -96,5 +96,15 @@ class Comment(models.Model):
     edited_by = models.ForeignKey(auth.get_user_model(), on_delete=models.SET_NULL, null=True,
                                   related_name='comment_edited_by')
 
+    def can_edit(self, user):
+        if user == self.created_by:
+            return True
+
+        return False
+
+    @property
+    def edit_url(self):
+        return reverse('plok:comment_update', args=[self.article.blog.name, self.article.name, self.id])
+
     def __str__(self):
         return '{}:{}'.format(self.article.name, self.created_by.username)

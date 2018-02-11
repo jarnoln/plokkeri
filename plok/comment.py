@@ -33,3 +33,40 @@ class CommentCreate(CreateView):
 
     def get_success_url(self):
         return self.article.get_absolute_url()
+
+
+class CommentUpdate(UpdateView):
+    model = Comment
+    fields = ['text']
+    article = None
+
+    def dispatch(self, request, *args, **kwargs):
+        blog_name = kwargs['blog_name']
+        article_name = kwargs['article_name']
+        blog = Blog.objects.get(name=blog_name)
+        self.article = Article.objects.get(blog=blog, name=article_name)
+        return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.object.can_edit(self.request.user):
+            return super(CommentUpdate, self).render_to_response(context, **response_kwargs)
+        else:
+            return HttpResponseRedirect(reverse('plok:article', args=[self.article.blog.name, self.article.name]))
+
+    def form_valid(self, form):
+        logger = logging.getLogger(__name__)
+        form.instance.edited_by = self.request.user
+        if self.object.can_edit(self.request.user):
+            return super(CommentUpdate, self).form_valid(form)
+        else:
+            logger.info("Not allowed to edit. Registered:%s Creator:%s" % (
+                self.request.user.username, self.blog.created_by.username))
+            return HttpResponseRedirect(reverse('plok:article', args=[self.article.blog.name, self.article.name]))
+
+    def get_context_data(self, **kwargs):
+        context = super(CommentUpdate, self).get_context_data(**kwargs)
+        context['message'] = self.request.GET.get('message', '')
+        return context
+
+    def get_success_url(self):
+        return self.article.get_absolute_url()
