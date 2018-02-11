@@ -135,3 +135,70 @@ class UpdateCommentPage(ExtTestCase):
         response = self.client.get(reverse(self.url_name, args=[blog.name, article.name, comment.id]), follow=True)
         # self.assertTemplateUsed(response, 'registration/login.html')
         self.assertTemplateUsed(response, 'account/login.html')
+
+
+class DeleteCommentPage(ExtTestCase):
+    url_name = 'plok:comment_delete'
+
+    def test_reverse_blog_delete(self):
+        self.assertEqual(reverse(self.url_name, args=['test_blog', 'test_article', '1']),
+                         '/plok/test_blog/test_article/comment/1/delete/')
+
+    def test_uses_correct_template(self):
+        user = self.create_and_log_in_user()
+        blog = Blog.objects.create(created_by=user, name="test_blog")
+        article = Article.objects.create(created_by=user, blog=blog, name="test_article", title="Test article")
+        comment = Comment.objects.create(article=article, created_by=user, text='Clever comment')
+        response = self.client.get(reverse(self.url_name, args=[blog.name, article.name, comment.id]))
+        self.assertTemplateUsed(response, 'plok/comment_confirm_delete.html')
+        # self.assertEqual(response.context['blog'], blog)
+        # self.assertEqual(response.context['article'], article)
+
+    def test_404(self):
+        user = self.create_and_log_in_user()
+        blog = Blog.objects.create(created_by=user, name="test_blog")
+        article = Article.objects.create(created_by=user, blog=blog, name="test_article", title="Test article")
+        response = self.client.get(reverse(self.url_name, args=[blog.name, article.name, '1']))
+        self.assertTemplateUsed(response, '404.html')
+
+    def test_can_delete_comment(self):
+        user = self.create_and_log_in_user()
+        blog = Blog.objects.create(created_by=user, name="test_blog", title="Test blog")
+        article = Article.objects.create(created_by=user, blog=blog, name="test_article", title="Test article")
+        comment = Comment.objects.create(article=article, created_by=user, text='Clever comment')
+        self.assertEqual(Blog.objects.all().count(), 1)
+        self.assertEqual(Article.objects.all().count(), 1)
+        self.assertEqual(Comment.objects.all().count(), 1)
+        response = self.client.post(reverse(self.url_name, args=[blog.name, article.name, comment.id]), {}, follow=True)
+        self.assertTemplateUsed(response, 'plok/article_detail.html')
+        self.assertEqual(response.context['article'], article)
+        self.assertEqual(Blog.objects.all().count(), 1)
+        self.assertEqual(Article.objects.all().count(), 1)
+        self.assertEqual(Comment.objects.all().count(), 0)
+
+    def test_cant_delete_article_if_not_logged_in(self):
+        creator = auth.get_user_model().objects.create(username='creator')
+        blog = Blog.objects.create(created_by=creator, name="test_blog", title="Test blog", description="Testing")
+        article = Article.objects.create(created_by=creator, blog=blog, name="test_article", title="Test article")
+        comment = Comment.objects.create(article=article, created_by=creator, text='Clever comment')
+        response = self.client.post(reverse(self.url_name, args=[blog.name, article.name, comment.id]), {}, follow=True)
+        # self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertTemplateUsed(response, 'account/login.html')
+        self.assertEqual(Blog.objects.all().count(), 1)
+        self.assertEqual(Article.objects.all().count(), 1)
+        self.assertEqual(Comment.objects.all().count(), 1)
+
+    def test_cant_delete_article_if_not_creator(self):
+        creator = auth.get_user_model().objects.create(username='creator')
+        blog = Blog.objects.create(created_by=creator, name="test_blog", title="Test blog", description="Testing")
+        article = Article.objects.create(created_by=creator, blog=blog, name="test_article", title="Test article")
+        comment = Comment.objects.create(article=article, created_by=creator, text='Clever comment')
+        self.create_and_log_in_user()
+        self.assertEqual(Blog.objects.all().count(), 1)
+        self.assertEqual(Article.objects.all().count(), 1)
+        self.assertEqual(Comment.objects.all().count(), 1)
+        response = self.client.post(reverse(self.url_name, args=[blog.name, article.name, comment.id]), {}, follow=True)
+        self.assertTemplateUsed(response, '404.html')
+        self.assertEqual(Blog.objects.all().count(), 1)
+        self.assertEqual(Article.objects.all().count(), 1)
+        self.assertEqual(Comment.objects.all().count(), 1)

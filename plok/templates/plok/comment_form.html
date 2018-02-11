@@ -23,4 +23,12 @@
 
 </form>
 
+{% if comment %}
+<p>
+  <a class="btn btn-danger" href="{% url 'plok:comment_delete' comment.article.blog.name comment.article.name comment.id %}">
+    {% trans 'Delete' %}
+  </a>
+</p>
+{% endif %}
+
 {% endblock %}

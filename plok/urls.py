@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth.decorators import login_required
 from .blog import BlogList, BlogDetail, BlogCreate, BlogUpdate, BlogDelete
 from .article import ArticleList, ArticleDetail, ArticleCreate, ArticleUpdate, ArticleDelete
-from .comment import CommentCreate, CommentUpdate
+from .comment import CommentCreate, CommentUpdate, CommentDelete
 from .about import AboutView
 
 
@@ -22,6 +22,8 @@ urlpatterns = [
          login_required(ArticleUpdate.as_view()), name='article_update'),
     path('plok/<slug:blog_name>/<slug:article_name>/comment/<int:pk>/edit/',
          login_required(CommentUpdate.as_view()), name='comment_update'),
+    path('plok/<slug:blog_name>/<slug:article_name>/comment/<int:pk>/delete/',
+         login_required(CommentDelete.as_view()), name='comment_delete'),
     path('plok/<slug:blog_name>/<slug:article_name>/comment/create/',
          login_required(CommentCreate.as_view()), name='comment_create'),
     path('plok/<slug:blog_name>/<slug:slug>/', ArticleDetail.as_view(), name='article'),

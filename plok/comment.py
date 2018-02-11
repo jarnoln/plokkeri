@@ -70,3 +70,37 @@ class CommentUpdate(UpdateView):
 
     def get_success_url(self):
         return self.article.get_absolute_url()
+
+
+class CommentDelete(DeleteView):
+    # slug_field = 'name'
+    model = Comment
+    article = None
+
+    def dispatch(self, request, *args, **kwargs):
+        blog_name = kwargs['blog_name']
+        article_name = kwargs['article_name']
+        blog = Blog.objects.get(name=blog_name)
+        self.article = Article.objects.get(blog=blog, name=article_name)
+        return super(CommentDelete, self).dispatch(request,*args, **kwargs)
+
+    def get_object(self):
+        comment = super(CommentDelete, self).get_object()
+        if comment.can_edit(self.request.user):
+            return comment
+        else:
+            raise Http404
+
+    def render_to_response(self, context, **response_kwargs):
+        logger = logging.getLogger(__name__)
+        if self.object.can_edit(self.request.user):
+            # context['blog'] = self.blog
+            return super(CommentDelete, self).render_to_response(context, **response_kwargs)
+        else:
+            logger.warning("User %s attempted to delete comment created by %s" %
+                           (self.request.user.username, self.object.created_by.username))
+            # return HttpResponseRedirect(reverse('plokkeri:blog', args=[self.blog.name]))
+            return HttpResponseNotAllowed()
+
+    def get_success_url(self):
+        return self.article.get_absolute_url()
