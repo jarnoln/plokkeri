@@ -32,9 +32,22 @@
 <h3> {% trans 'Comments' %}: {{ article.comments.count }}</h3>
 
 {% for comment  in article.comments %}
-<div> {{ comment.created_by.username }} {% trans 'on' %} {{ comment.created|date:"Y-m-d H:m" }} </div>
-<div> {{ comment.text }} </div>
+  <div class="comment"> {{ comment.text }} </div>
+  <div> <small>{{ comment.created_by.username }} {% trans 'on' %} {{ comment.created|date:"Y-m-d H:m" }} </small> </div>
 {% endfor %}
+
+<div>
+  {% if user.is_authenticated %}
+    <a class="btn btn-primary" href="{% url 'plok:comment_create' article.blog.name article.name %}">
+      {% trans 'Add comment' %}
+    </a>
+  {% else %}
+    <a href="{% url 'account_login' %}">
+      {% trans 'Log in' %}
+    </a>
+    {% trans 'to comment' %}
+  {% endif %}
+</div>
 
   </div>
   <div class="col-md-2"> &nbsp;</div>

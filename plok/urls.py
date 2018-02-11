@@ -2,7 +2,9 @@ from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from .blog import BlogList, BlogDetail, BlogCreate, BlogUpdate, BlogDelete
 from .article import ArticleList, ArticleDetail, ArticleCreate, ArticleUpdate, ArticleDelete
+from .comment import CommentCreate
 from .about import AboutView
+
 
 app_name = 'plok'
 urlpatterns = [
@@ -18,6 +20,8 @@ urlpatterns = [
         login_required(ArticleDelete.as_view()), name='article_delete'),
     url(r'^plok/(?P<blog_name>\w+)/(?P<slug>\w+)/update/$',
         login_required(ArticleUpdate.as_view()), name='article_update'),
+    url(r'^plok/(?P<blog_name>\w+)/(?P<article_name>\w+)/comment/create/$',
+        login_required(CommentCreate.as_view()), name='comment_create'),
     url(r'^plok/(?P<blog_name>\w+)/(?P<slug>\w+)/$', ArticleDetail.as_view(), name='article'),
     url(r'^$', ArticleList.as_view(), name='index'),
 ]

@@ -1,0 +1,26 @@
+{% extends "plok/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% if comment %}
+<h1> {% trans "Edit comment" %} </h1>
+<form action="{{ comment.get_edit_url }}" method="post">
+{% else %}
+<h1> {% trans "Create comment" %} </h1>
+<form action="" method="post">
+{% endif %}
+{% csrf_token %}
+
+<table class="table">
+
+{{ form.as_table }}
+
+{% trans "Save" as save_txt %}
+    <tr> <td colspan="2"> <input type="submit" class="btn btn-primary" value="{{ save_txt }}"> </td> </tr>
+
+</table>
+
+</form>
+
+{% endblock %}
