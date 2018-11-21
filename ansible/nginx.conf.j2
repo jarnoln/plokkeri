@@ -1,10 +1,17 @@
 server {
     listen 80;
+    listen [::]:80; #IPv6
+    server_name {{ host }} www.{{ host }} {{ host_alias }} www.{{ host_alias }};
+    return 301 https://$server_name$request_uri;
+}
+
+server {
     listen 443 ssl;
+    listen [::]:443 ssl; #IPv6
 
     server_name {{ host }} www.{{ host }} staging.{{ host }} {{ host_alias }} www.{{ host_alias }};
-    ssl_certificate /etc/letsencrypt/live/{{ host }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ host }}/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/{{ host_alias }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ host_alias }}/privkey.pem;
 
     location /favicon.ico {
         alias /home/{{ ansible_ssh_user }}/sites/jln-static/favicon.ico;
