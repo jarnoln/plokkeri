@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: python:3.6.1
+      - image: circleci/python:3.6.4
     steps:
       - checkout
 
@@ -13,6 +13,8 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - run:
           name: Install Python packages
           command: |
@@ -30,6 +32,13 @@ jobs:
       - run:
           name: Generate passwords file
           command: python plokkeri/generate_passwords.py plokkeri/passwords.py
+
+    - run:
+          name: Update database tables
+          command: |
+            python manage.py makemigrations
+            python manage.py makemigrations plok
+            python manage.py migrate
 
       - run:
           name: Run unit tests
