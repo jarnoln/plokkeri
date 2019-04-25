@@ -33,7 +33,7 @@ jobs:
           name: Generate passwords file
           command: python plokkeri/generate_passwords.py plokkeri/passwords.py
 
-    - run:
+      - run:
           name: Update database tables
           command: |
             python manage.py makemigrations
