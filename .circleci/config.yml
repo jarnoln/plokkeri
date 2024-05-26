@@ -1,8 +1,9 @@
-version: 2
+version: 2.1
+orbs:
+  python: circleci/python@2.0.3
 jobs:
   build:
-    docker:
-      - image: circleci/python:3.6.4
+    executor: python/default
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
@@ -37,3 +38,8 @@ jobs:
             coverage run --source=users,plok manage.py test -v2
             codecov
             coverage report
+
+workflows:
+  main:
+    jobs:
+      - build
