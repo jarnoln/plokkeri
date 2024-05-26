@@ -4,8 +4,6 @@ orbs:
 jobs:
   build:
     executor: python/default
-    docker:
-      - image: circleci/python:3.6.4
     steps:
       - checkout
       - run:
