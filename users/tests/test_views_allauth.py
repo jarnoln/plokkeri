@@ -86,7 +86,7 @@ class EmailManagementTest(ExtTestCase):
 
 class SocialConnectionsTest(ExtTestCase):
     def test_reverse(self):
-        self.assertEqual(reverse('socialaccount_connections'), '/accounts/social/connections/')
+        self.assertEqual(reverse('socialaccount_connections'), '/accounts/3rdparty/')
 
     def test_uses_correct_template(self):
         self.create_and_log_in_user()
