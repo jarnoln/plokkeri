@@ -2,7 +2,7 @@ import logging
 
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, Http404
-from django.utils.translation import ugettext
+from django.utils.translation import gettext
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from plok.models import Blog
@@ -43,7 +43,7 @@ class BlogCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(BlogCreate, self).get_context_data(**kwargs)
-        context['title'] = ugettext('Create new blog')
+        context['title'] = gettext('Create new blog')
         context['message'] = self.request.GET.get('message', '')
         return context
 

@@ -3,7 +3,7 @@ from markdown import markdown
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponseNotAllowed, Http404
-from django.utils.translation import ugettext
+from django.utils.translation import gettext
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from plok.models import Blog, Article
@@ -17,7 +17,7 @@ class ArticleList(ListView):
         context = super(ArticleList, self).get_context_data(**kwargs)
         context['message'] = self.request.GET.get('message', '')
         context['page'] = "blogs"
-        context['title'] = ugettext("Articles")
+        context['title'] = gettext("Articles")
         context['can_add'] = self.request.user.is_superuser
         return context
 

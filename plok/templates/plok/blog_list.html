@@ -30,14 +30,14 @@
         <td> <a href="{{ blog.get_absolute_url }}"> {{ blog.title }} </a> </td>
         <td> {{ blog.articles.count }} </td>
         <td> {{ blog.created_by.username }} </td>
-        {% ifequal blog.created_by.username request.user.username %}
+        {% if blog.created_by.username == request.user.username %}
         <td>
             <a class="action btn btn-xs btn-primary" href="{% url 'plok:blog_update' blog.name %}"> {% trans "Edit" %} </a>
             <a class="action btn btn-xs btn-danger" href="{% url 'plok:blog_delete' blog.name %}"> {% trans "Delete" %} </a>
         </td>
         {% else %}
         <td> &nbsp; </td>
-        {% endifequal %}
+        {% endif %}
     </tr>
 {% endfor %}
     </tbody>

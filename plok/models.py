@@ -1,17 +1,17 @@
 from django.db import models
 from django.contrib import auth
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext_lazy
 from django.conf import settings  # For available languages
 from django.urls import reverse
 
 
 class Blog(models.Model):
-    name = models.SlugField(max_length=100, unique=True, verbose_name=ugettext_lazy('name'),
-                            help_text=ugettext_lazy('Must be unique. Used in URL.'))
-    title = models.CharField(max_length=250, verbose_name=ugettext_lazy('title'))
-    description = models.TextField(null=True, blank=True, verbose_name=ugettext_lazy('description'))
+    name = models.SlugField(max_length=100, unique=True, verbose_name=gettext_lazy('name'),
+                            help_text=gettext_lazy('Must be unique. Used in URL.'))
+    title = models.CharField(max_length=250, verbose_name=gettext_lazy('title'))
+    description = models.TextField(null=True, blank=True, verbose_name=gettext_lazy('description'))
     language = models.CharField(max_length=50, choices=settings.LANGUAGES, default='en',
-                                verbose_name=ugettext_lazy('language'))
+                                verbose_name=gettext_lazy('language'))
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(auth.get_user_model(), on_delete=models.CASCADE, related_name='blog_created_by')
     edited = models.DateTimeField(auto_now=True)
@@ -44,14 +44,14 @@ class Article(models.Model):
     )
 
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=False)
-    name = models.SlugField(max_length=100, unique=True, verbose_name=ugettext_lazy('name'),
-                            help_text=ugettext_lazy('Must be unique. Used in URL.'))
-    title = models.CharField(max_length=250, verbose_name=ugettext_lazy('title'))
+    name = models.SlugField(max_length=100, unique=True, verbose_name=gettext_lazy('name'),
+                            help_text=gettext_lazy('Must be unique. Used in URL.'))
+    title = models.CharField(max_length=250, verbose_name=gettext_lazy('title'))
     description = models.TextField(null=True, blank=True,  # Short description, used in page meta headers
-                                   verbose_name=ugettext_lazy('description'))
-    text = models.TextField(null=True, blank=True, verbose_name=ugettext_lazy('text'))  # Actual blog content
+                                   verbose_name=gettext_lazy('description'))
+    text = models.TextField(null=True, blank=True, verbose_name=gettext_lazy('text'))  # Actual blog content
     language = models.CharField(max_length=50, choices=settings.LANGUAGES, default='en',
-                                verbose_name=ugettext_lazy('language'))
+                                verbose_name=gettext_lazy('language'))
     format = models.CharField(max_length=50, choices=FORMAT_CHOICES, default='html')
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(auth.get_user_model(), on_delete=models.CASCADE, related_name='article_created_by')
@@ -89,7 +89,7 @@ class Article(models.Model):
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=False)
     reply_to = models.ForeignKey('self', on_delete=models.CASCADE, null=True, default=None, blank=True)
-    text = models.TextField(null=True, blank=True, verbose_name=ugettext_lazy('text'))  # Actual comment
+    text = models.TextField(null=True, blank=True, verbose_name=gettext_lazy('text'))  # Actual comment
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(auth.get_user_model(), on_delete=models.CASCADE, related_name='comment_created_by')
     edited = models.DateTimeField(auto_now=True)

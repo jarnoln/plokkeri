@@ -1,7 +1,6 @@
 import os
 from django.conf import settings
 from django.views.generic import TemplateView
-from django.utils.translation import ugettext
 from markdown import markdown
 
 
