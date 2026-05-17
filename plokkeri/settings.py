@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.amazon',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.twitter_oauth2',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +135,6 @@ DEFAULT_FROM_EMAIL = 'accounts@plokkeri.fi'  # Used for normal emails (mostly ac
 LANGUAGE_CODE = 'fi'
 TIME_ZONE = 'Europe/Helsinki'
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 
 LOCALE_PATHS = [
@@ -155,7 +154,6 @@ STATIC_ROOT = os.path.join(SITE_DIR, 'static')
 # Security
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
-SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_SSL_REDIRECT = False
 X_FRAME_OPTIONS = 'DENY'
