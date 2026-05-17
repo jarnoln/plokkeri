@@ -1,17 +1,18 @@
 version: 2.1
 orbs:
   python: circleci/python@2.1.1
+
 jobs:
   build:
-    executor: python/default
+    executor:
+      name: python/default
+      tag: "3.12"
     steps:
       - checkout
+
       - run:
           name: Install Python packages
-          command: |
-            pip install -r requirements.txt
-            pip install coverage
-            pip install codecov
+          command: pip install -r requirements.txt coverage
 
       - run:
           name: Generate passwords file
@@ -21,17 +22,17 @@ jobs:
           name: Update database tables
           command: |
             python manage.py makemigrations
-            python manage.py makemigrations plok
             python manage.py migrate
 
       - run:
           name: Run unit tests
-          command: |
-            python manage.py test
+          command: python manage.py test
 
       - run:
           name: Run coverage
           command: |
             coverage run --source=users,plok manage.py test -v2
-            codecov
             coverage report
+            curl -Os https://uploader.codecov.io/latest/linux/codecov
+            chmod +x codecov
+            ./codecov
