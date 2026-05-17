@@ -7,7 +7,7 @@
     source_folder: "{{ site_folder }}/source"
     venv_folder: "{{ site_folder }}/virtualenv"
     python: "{{ venv_folder }}/bin/python"
-    repo_url: "git@github.com:jarnoln/plokkeri.git"
+    repo_url: "https://github.com/jarnoln/plokkeri.git"
 
   tasks:
     - name: Create site directory structure
@@ -50,7 +50,7 @@
         creates: "{{ source_folder }}/plokkeri/passwords.py"
 
     - name: Create any missing migrations
-      command: "{{ python }} manage.py makemigrations"
+      command: "{{ python }} manage.py makemigrations plok users"
       args:
         chdir: "{{ source_folder }}"
 
