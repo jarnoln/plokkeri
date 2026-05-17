@@ -1,0 +1,76 @@
+---
+- name: Deploy plokkeri
+  hosts: all
+  vars:
+    host: "{{ inventory_hostname }}"
+    site_folder: "/home/{{ ansible_user }}/sites/{{ host }}"
+    source_folder: "{{ site_folder }}/source"
+    venv_folder: "{{ site_folder }}/virtualenv"
+    python: "{{ venv_folder }}/bin/python"
+    repo_url: "git@github.com:jarnoln/plokkeri.git"
+
+  tasks:
+    - name: Create site directory structure
+      file:
+        path: "{{ site_folder }}/{{ item }}"
+        state: directory
+      loop:
+        - database
+        - log
+        - static
+
+    - name: Clone or update source code
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ source_folder }}"
+        version: "{{ lookup('pipe', 'git rev-parse HEAD') }}"
+        accept_hostkey: true
+
+    - name: Create virtualenv
+      command: python3 -m venv {{ venv_folder }}
+      args:
+        creates: "{{ venv_folder }}/bin/activate"
+
+    - name: Install Python dependencies
+      pip:
+        requirements: "{{ source_folder }}/requirements.txt"
+        virtualenv: "{{ venv_folder }}"
+
+    - name: Disable debug mode
+      lineinfile:
+        path: "{{ source_folder }}/plokkeri/settings.py"
+        regexp: '^DEBUG = '
+        line: 'DEBUG = False'
+
+    - name: Generate secret key if missing
+      command: >
+        {{ python }} {{ source_folder }}/plokkeri/generate_passwords.py
+        {{ source_folder }}/plokkeri/passwords.py
+      args:
+        creates: "{{ source_folder }}/plokkeri/passwords.py"
+
+    - name: Create any missing migrations
+      command: "{{ python }} manage.py makemigrations"
+      args:
+        chdir: "{{ source_folder }}"
+
+    - name: Apply database migrations
+      command: "{{ python }} manage.py migrate"
+      args:
+        chdir: "{{ source_folder }}"
+
+    - name: Collect static files
+      command: "{{ python }} manage.py collectstatic --noinput"
+      args:
+        chdir: "{{ source_folder }}"
+
+    - name: Run test suite
+      command: "{{ python }} manage.py test plok users"
+      args:
+        chdir: "{{ source_folder }}"
+
+    - name: Restart gunicorn
+      become: true
+      systemd:
+        name: "gunicorn-{{ app_name }}"
+        state: restarted

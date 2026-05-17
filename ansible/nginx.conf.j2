@@ -14,17 +14,17 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/{{ host_alias }}/privkey.pem;
 
     location /favicon.ico {
-        alias /home/{{ ansible_ssh_user }}/sites/jln-static/favicon.ico;
+        alias /home/{{ ansible_user }}/sites/jln-static/favicon.ico;
     }
 
     location /static {
-        alias /home/{{ ansible_ssh_user }}/sites/{{ host }}/static;
+        alias /home/{{ ansible_user }}/sites/{{ host }}/static;
         autoindex on;
     }
 
     # This is used by certbot to verify site ownership
     location /.well-known {
-        alias /home/{{ ansible_ssh_user }}/sites/{{ host }}/.well-known;
+        alias /home/{{ ansible_user }}/sites/{{ host }}/.well-known;
         autoindex on;
     }
 
